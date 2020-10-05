@@ -31,6 +31,8 @@ namespace Lesson1
 
         private bool _isShiftMode;
 
+        private bool _isMagnifierMode;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -145,7 +147,7 @@ namespace Lesson1
             {
                 if (image == MagnifierIcon)
                 {
-                    _isShiftMode = true;
+                    _isMagnifierMode = true;
                     _keyboard.KeyDown(VirtualKeyCode.LWIN);
                     _keyboard.KeyPress(VirtualKeyCode.OEM_PLUS);
                     _keyboard.KeyUp(VirtualKeyCode.LWIN);
@@ -153,12 +155,12 @@ namespace Lesson1
                 }
                 else
                 {
-                    if (_isShiftMode)
+                    if (_isMagnifierMode)
                     {
                         _keyboard.KeyDown(VirtualKeyCode.LWIN);
                         _keyboard.KeyPress(VirtualKeyCode.ESCAPE);
                         _keyboard.KeyUp(VirtualKeyCode.LWIN);
-                        _isShiftMode = false;
+                        _isMagnifierMode = false;
                     }
 
                     Tool = image.DataContext as BaseTool;
@@ -190,7 +192,7 @@ namespace Lesson1
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (!_isShiftMode && !string.IsNullOrEmpty(_tool?.ToString()))
+                if (!string.IsNullOrEmpty(_tool?.ToString()))
                 {
                     AboutDrawing.Visibility = Visibility.Visible;
                     AboutDrawing.Text = _tool.ToString();
