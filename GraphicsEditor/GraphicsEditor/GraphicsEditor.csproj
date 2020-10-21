@@ -163,5 +163,8 @@
     <Resource Include="Images\XiaolinWuLine.gif" />
     <Resource Include="Images\XiaolinWuLine.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Eraser.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

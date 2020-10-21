@@ -15,7 +15,7 @@ namespace Lesson1.Tools
         {
         }
 
-        public override string ToString() => $"У:  {Mathp.Angle(StartPoint, LastPoint),6:F}°\nД:  {Mathp.Distance(StartPoint, LastPoint),6:F} пикс.";
+        public override string ToString() => $"∠:  {Mathp.Angle(StartPoint, LastPoint),6:F}°\nД:  {Mathp.Distance(StartPoint, LastPoint),6:F} пикс.";
 
         protected override void Drawing(Point currentPoint, Color color)
         {
