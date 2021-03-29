@@ -115,13 +115,14 @@
                 null);
             var buffer = new byte[4 * (int)BackgroundImage.Source.Width * (int)BackgroundImage.Source.Height];
             ForegroundImage.Source = new WriteableBitmap((BitmapSource)BackgroundImage.Source);
-            BaseLineIcon.DataContext = new ShapeLineTool(DrawCanvas);
+            BaseLineIcon.DataContext = new ShapeLineTool(ShapeCanvas);
             BresenhamLineIcon.DataContext = new BresenhamLineTool(BackgroundImage, ForegroundImage, buffer);
             XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackgroundImage, ForegroundImage, buffer);
-            EllipseIcon.DataContext = new ShapeEllipseTool(DrawCanvas);
+            EllipseIcon.DataContext = new ShapeEllipseTool(ShapeCanvas);
             MagnifierIcon.DataContext = new MagnifierTool();
+            EraserIcon.DataContext = new EraserTool(ShapeCanvas, BackgroundImage, ForegroundImage, buffer);
             Watcher.Stop();
-            Thread.Sleep((int)(2000 - (Watcher.ElapsedMilliseconds / 1000.0)));
+            Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)

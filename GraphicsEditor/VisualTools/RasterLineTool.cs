@@ -40,12 +40,12 @@
         {
             var start = new Point(Math.Min(StartPoint.X, LastPoint.X), Math.Min(StartPoint.Y, LastPoint.Y));
             var end = new Point(Math.Max(StartPoint.X, LastPoint.X), Math.Max(StartPoint.Y, LastPoint.Y));
-            var rect = new Int32Rect(
+            var size = new Int32Rect(
                 (int)start.X,
                 (int)start.Y,
                 (int)(end.X - start.X + 2),
                 (int)(end.Y - start.Y + 2));
-            Foreground.WritePixels(rect, BackgroundBuffer, 4 * rect.Width, 0);
+            Foreground.WritePixels(size, BackgroundBuffer, 4 * size.Width, 0);
         }
     }
 }

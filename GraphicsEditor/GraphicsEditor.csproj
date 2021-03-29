@@ -60,7 +60,7 @@
     <Resource Include="Images\ShapeLine.png" />
     <Resource Include="Images\ShiftModeEllipse.gif" />
     <Resource Include="Images\ShiftModeLine.gif" />
-    <Resource Include="Images\SplashScreen.png" />
+    <SplashScreen Include="Images\SplashScreen.png" />
     <Resource Include="Images\XiaolinWuLine.gif" />
     <Resource Include="Images\XiaolinWuLine.png" />
     <Resource Include="Readme.txt" />

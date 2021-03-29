@@ -99,6 +99,9 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top" 
                        Visibility="Collapsed" />
+
+            <Canvas  x:Name="ShapeCanvas"/>
+
         </Grid>
 
         <StackPanel HorizontalAlignment="Left"
