@@ -1,11 +1,11 @@
-﻿
-namespace Lesson1.Tools
+﻿namespace GraphicsEditor.VisualTools
 {
     using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using Extensions;
 
     public class BresenhamLineTool : RasterLineTool
     {
@@ -18,19 +18,14 @@ namespace Lesson1.Tools
         {
             byte[] colorData = { color.B, color.G, color.R, color.A };
             Point startPoint = StartPoint;
-
             bool isVertical = Math.Abs(currentPoint.Y - startPoint.Y) > Math.Abs(currentPoint.X - startPoint.X);
             if (isVertical)
             {
-                startPoint = Mathp.Swap(startPoint);
-                currentPoint = Mathp.Swap(currentPoint);
+                startPoint = startPoint.Swap();
+                currentPoint = currentPoint.Swap();
             }
 
-            if (startPoint.X > currentPoint.X)
-            {
-                (startPoint, currentPoint) = (currentPoint, startPoint);
-            }
-
+            if (startPoint.X > currentPoint.X) (startPoint, currentPoint) = (currentPoint, startPoint);
             int dx = (int)(currentPoint.X - startPoint.X);
             int dy = (int)Math.Abs(currentPoint.Y - startPoint.Y);
             int error = dx >> 1;
@@ -40,11 +35,10 @@ namespace Lesson1.Tools
             {
                 DrawPoint(bitmap, x, y, colorData, isVertical);
                 error -= dy;
-                if (error < 0)
-                {
-                    y += stepY;
-                    error += dx;
-                }
+
+                if (error >= 0) continue;
+                y += stepY;
+                error += dx;
             }
         }
     }

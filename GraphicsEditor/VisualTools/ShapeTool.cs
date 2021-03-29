@@ -1,5 +1,4 @@
-﻿
-namespace Lesson1.Tools
+﻿namespace GraphicsEditor.VisualTools
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -8,12 +7,12 @@ namespace Lesson1.Tools
 
     public class ShapeTool : BaseTool
     {
-        protected readonly Panel Panel;
-
         public ShapeTool(Panel panel)
         {
             Panel = panel;
         }
+
+        protected Panel Panel { get; }
 
         public override void StartDrawing(Point startPoint, Color color)
         {
@@ -21,9 +20,6 @@ namespace Lesson1.Tools
             Panel.Children.Add(DrawingShape(color));
         }
 
-        protected virtual Shape DrawingShape(Color color)
-        {
-            return null;
-        }
+        protected virtual Shape DrawingShape(Color color) => null;
     }
 }

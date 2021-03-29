@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\About.png" />
+    <None Remove="Images\BresenhamCircle.png" />
+    <None Remove="Images\BresenhamEllipse.png" />
+    <None Remove="Images\BresenhamLine.gif" />
+    <None Remove="Images\BresenhamLine.png" />
+    <None Remove="Images\Eraser.png" />
+    <None Remove="Images\Icon.png" />
+    <None Remove="Images\Magnifier.gif" />
+    <None Remove="Images\Magnifier.png" />
+    <None Remove="Images\ShapeCircle.png" />
+    <None Remove="Images\ShapeEllipse.gif" />
+    <None Remove="Images\ShapeEllipse.png" />
+    <None Remove="Images\ShapeLine.gif" />
+    <None Remove="Images\ShapeLine.png" />
+    <None Remove="Images\ShiftModeEllipse.gif" />
+    <None Remove="Images\ShiftModeLine.gif" />
+    <None Remove="Images\SplashScreen.png" />
+    <None Remove="Images\XiaolinWuLine.gif" />
+    <None Remove="Images\XiaolinWuLine.png" />
+    <None Remove="Readme.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
+    <PackageReference Include="InputSimulator" Version="1.0.4" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="XamlAnimatedGif" Version="1.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\About.png" />
+    <Resource Include="Images\BresenhamCircle.png" />
+    <Resource Include="Images\BresenhamEllipse.png" />
+    <Resource Include="Images\BresenhamLine.gif" />
+    <Resource Include="Images\BresenhamLine.png" />
+    <Resource Include="Images\Eraser.png" />
+    <Resource Include="Images\Icon.png" />
+    <Resource Include="Images\Magnifier.gif" />
+    <Resource Include="Images\Magnifier.png" />
+    <Resource Include="Images\ShapeCircle.png" />
+    <Resource Include="Images\ShapeEllipse.gif" />
+    <Resource Include="Images\ShapeEllipse.png" />
+    <Resource Include="Images\ShapeLine.gif" />
+    <Resource Include="Images\ShapeLine.png" />
+    <Resource Include="Images\ShiftModeEllipse.gif" />
+    <Resource Include="Images\ShiftModeLine.gif" />
+    <Resource Include="Images\SplashScreen.png" />
+    <Resource Include="Images\XiaolinWuLine.gif" />
+    <Resource Include="Images\XiaolinWuLine.png" />
+    <Resource Include="Readme.txt" />
+  </ItemGroup>
+
+</Project>

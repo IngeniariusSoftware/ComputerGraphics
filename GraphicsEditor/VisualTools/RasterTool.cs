@@ -1,5 +1,4 @@
-﻿
-namespace Lesson1.Tools
+﻿namespace GraphicsEditor.VisualTools
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -7,12 +6,6 @@ namespace Lesson1.Tools
 
     public class RasterTool : BaseTool
     {
-        protected readonly WriteableBitmap Background;
-
-        protected readonly WriteableBitmap Foreground;
-
-        protected readonly byte[] BackgroundBuffer;
-
         public RasterTool(Image background, Image foreground, byte[] backgroundBuffer)
         {
             Background = (WriteableBitmap)background.Source;
@@ -20,7 +13,13 @@ namespace Lesson1.Tools
             BackgroundBuffer = backgroundBuffer;
         }
 
-        protected void DrawPoint(
+        protected WriteableBitmap Background { get; }
+
+        protected WriteableBitmap Foreground { get; }
+
+        protected byte[] BackgroundBuffer { get; }
+
+        protected static void DrawPoint(
             WriteableBitmap bitmap,
             int x,
             int y,

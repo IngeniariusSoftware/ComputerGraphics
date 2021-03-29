@@ -1,11 +1,12 @@
-﻿
-namespace Lesson1.Tools
+﻿namespace GraphicsEditor.VisualTools
 {
     using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using Geometry;
+    using LineSegment = Geometry.LineSegment;
 
     public class RasterLineTool : RasterTool
     {
@@ -21,7 +22,8 @@ namespace Lesson1.Tools
             DrawLine(Background, currentPoint, color);
         }
 
-        public override string ToString() => $"∠:  {Mathp.Angle(StartPoint, LastPoint),6:F}°\nД:  {Mathp.Distance(StartPoint, LastPoint),6:F} пикс.";
+        public override string ToString() =>
+            $"∠:  {-new LineSegment(StartPoint, LastPoint).TiltAngle,6:F}°\nД:  {MathGeometry.Length(StartPoint, LastPoint),6:F} пикс.";
 
         protected override void Drawing(Point currentPoint, Color color)
         {
@@ -36,8 +38,8 @@ namespace Lesson1.Tools
 
         protected void ClearBuffer()
         {
-            Point start = new Point(Math.Min(StartPoint.X, LastPoint.X), Math.Min(StartPoint.Y, LastPoint.Y));
-            Point end = new Point(Math.Max(StartPoint.X, LastPoint.X), Math.Max(StartPoint.Y, LastPoint.Y));
+            var start = new Point(Math.Min(StartPoint.X, LastPoint.X), Math.Min(StartPoint.Y, LastPoint.Y));
+            var end = new Point(Math.Max(StartPoint.X, LastPoint.X), Math.Max(StartPoint.Y, LastPoint.Y));
             var rect = new Int32Rect(
                 (int)start.X,
                 (int)start.Y,
