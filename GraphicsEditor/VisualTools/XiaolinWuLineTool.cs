@@ -10,14 +10,14 @@
     /// <summary>
     /// Алгоритм сглаживания линии У Сяолиня https://habr.com/ru/post/185086/
     /// </summary>
-    public class XiaolinWuLineTool : RasterLineTool
+    public class XiaolinWuLineTool : RasterFigureTool
     {
         public XiaolinWuLineTool(Image background, Image foreground, byte[] backgroundBuffer)
             : base(background, foreground, backgroundBuffer)
         {
         }
 
-        protected override void DrawLine(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
             byte[] colorData = { color.B, color.G, color.R, color.A };
             Point startPoint = StartPoint;

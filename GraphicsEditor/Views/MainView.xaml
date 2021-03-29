@@ -342,7 +342,7 @@
                                        Margin="15,10,0,10"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                <Underline>Shift</Underline>: режим рисования круга
+                                <Underline>Shift</Underline>: режим рисования окружности
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>

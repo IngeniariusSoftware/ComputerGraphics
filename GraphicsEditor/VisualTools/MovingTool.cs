@@ -28,7 +28,7 @@
         {
             base.EndDrawing(currentPoint, color);
             if (MovingShape == null) return;
-            MovingShape.ReleaseMouseCapture();
+            Mouse.Capture(null);
             MovingShape = null;
         }
 
@@ -45,7 +45,7 @@
         {
             if (args.Source is not Shape shape) return;
             MovingShape = shape;
-            MovingShape.CaptureMouse();
+            Mouse.Capture(MovingShape);
             Delta = (Vector)Mouse.GetPosition(MovingShape);
         }
     }

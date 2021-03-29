@@ -7,14 +7,14 @@
     using System.Windows.Media.Imaging;
     using Extensions;
 
-    public class BresenhamLineTool : RasterLineTool
+    public class BresenhamLineTool : RasterFigureTool
     {
         public BresenhamLineTool(Image background, Image foreground, byte[] backgroundBuffer)
             : base(background, foreground, backgroundBuffer)
         {
         }
 
-        protected override void DrawLine(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
             byte[] colorData = { color.B, color.G, color.R, color.A };
             Point startPoint = StartPoint;

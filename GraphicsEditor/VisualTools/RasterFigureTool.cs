@@ -8,9 +8,9 @@
     using Geometry;
     using LineSegment = Geometry.LineSegment;
 
-    public class RasterLineTool : RasterTool
+    public class RasterFigureTool : RasterTool
     {
-        public RasterLineTool(Image background, Image foreground, byte[] backgroundBuffer)
+        public RasterFigureTool(Image background, Image foreground, byte[] backgroundBuffer)
             : base(background, foreground, backgroundBuffer)
         {
         }
@@ -19,7 +19,7 @@
         {
             base.EndDrawing(currentPoint, color);
             ClearBuffer();
-            DrawLine(Background, currentPoint, color);
+            DrawFigure(Background, currentPoint, color);
         }
 
         public override string ToString() =>
@@ -28,11 +28,11 @@
         protected override void Drawing(Point currentPoint, Color color)
         {
             ClearBuffer();
-            DrawLine(Foreground, currentPoint, color);
+            DrawFigure(Foreground, currentPoint, color);
             base.Drawing(currentPoint, color);
         }
 
-        protected virtual void DrawLine(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected virtual void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
         }
 

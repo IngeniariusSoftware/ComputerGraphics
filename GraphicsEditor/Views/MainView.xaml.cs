@@ -144,7 +144,6 @@
         private void DrawCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             StartDrawing(this, e.GetPosition(DrawCanvas));
-            DrawCanvas.CaptureMouse();
             Mouse.Capture(DrawCanvas);
         }
 
@@ -161,7 +160,7 @@
         {
             EndDrawing(this, e.GetPosition(DrawCanvas));
             AboutDrawing.Visibility = Visibility.Collapsed;
-            DrawCanvas.ReleaseMouseCapture();
+            Mouse.Capture(null);
         }
 
         private void BorderGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => IsDragMode = true;
