@@ -23,3 +23,9 @@ dotnet_diagnostic.SA1130.severity = silent
 
 # SA1117: Parameters should be on same line or separate lines
 dotnet_diagnostic.SA1117.severity = silent
+
+# SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1629.severity = silent
+
+# SA1116: Split parameters should start on line after declaration
+dotnet_diagnostic.SA1116.severity = silent

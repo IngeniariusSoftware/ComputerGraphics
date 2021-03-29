@@ -84,14 +84,6 @@ namespace GraphicsEditor.Geometry
 
         public static int CeilingToPeriod(double angle, int period) => ((int)Ceiling(angle / period)) * period;
 
-        public static int RoundAwayFromZeroToPeriod(double angle, int period)
-        {
-            double number = angle / period;
-            int times = (int)(number > 0 ? Ceiling(number) : Floor(number));
-            return times * period;
-        }
-
-
         private static int VisibilityPointCode(Point point, Rectangle rectangle)
         {
             int code = 0;

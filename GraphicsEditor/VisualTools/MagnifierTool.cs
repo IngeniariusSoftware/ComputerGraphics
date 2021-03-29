@@ -14,6 +14,7 @@
 
         public override void Open()
         {
+            base.Open();
             Keyboard.KeyDown(VirtualKeyCode.LWIN);
             Keyboard.KeyPress(VirtualKeyCode.OEM_PLUS);
             Keyboard.KeyUp(VirtualKeyCode.LWIN);
@@ -21,6 +22,7 @@
 
         public override void Close()
         {
+            base.Close();
             Keyboard.KeyDown(VirtualKeyCode.LWIN);
             Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
             Keyboard.KeyUp(VirtualKeyCode.LWIN);

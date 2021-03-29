@@ -120,7 +120,9 @@
             XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackgroundImage, ForegroundImage, buffer);
             EllipseIcon.DataContext = new ShapeEllipseTool(ShapeCanvas);
             MagnifierIcon.DataContext = new MagnifierTool();
+            CircleIcon.DataContext = new ShapeCircleTool(ShapeCanvas);
             EraserIcon.DataContext = new EraserTool(ShapeCanvas, BackgroundImage, ForegroundImage, buffer);
+            MovingIcon.DataContext = new MovingTool(ShapeCanvas);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
@@ -142,6 +144,7 @@
         private void DrawCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             StartDrawing(this, e.GetPosition(DrawCanvas));
+            DrawCanvas.CaptureMouse();
             Mouse.Capture(DrawCanvas);
         }
 
@@ -158,7 +161,7 @@
         {
             EndDrawing(this, e.GetPosition(DrawCanvas));
             AboutDrawing.Visibility = Visibility.Collapsed;
-            Mouse.Capture(null);
+            DrawCanvas.ReleaseMouseCapture();
         }
 
         private void BorderGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => IsDragMode = true;

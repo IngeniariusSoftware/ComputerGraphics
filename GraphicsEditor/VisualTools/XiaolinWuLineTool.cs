@@ -7,6 +7,9 @@
     using System.Windows.Media.Imaging;
     using Extensions;
 
+    /// <summary>
+    /// Алгоритм сглаживания линии У Сяолиня https://habr.com/ru/post/185086/
+    /// </summary>
     public class XiaolinWuLineTool : RasterLineTool
     {
         public XiaolinWuLineTool(Image background, Image foreground, byte[] backgroundBuffer)

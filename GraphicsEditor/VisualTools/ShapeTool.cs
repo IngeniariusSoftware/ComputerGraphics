@@ -17,9 +17,9 @@
         public override void StartDrawing(Point startPoint, Color color)
         {
             base.StartDrawing(startPoint, color);
-            Panel.Children.Add(DrawingShape(color));
+            Panel.Children.Add(GenerateShape(color));
         }
 
-        protected virtual Shape DrawingShape(Color color) => null;
+        protected virtual Shape GenerateShape(Color color) => null;
     }
 }

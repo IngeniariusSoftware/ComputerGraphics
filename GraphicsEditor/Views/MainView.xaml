@@ -7,8 +7,8 @@
         xmlns:xamlAnimatedGif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
         Title="GraphicsEditor" 
-        Height="450"
-        Width="800" 
+        Height="680"
+        Width="1080" 
         AllowsTransparency="True"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip" 
@@ -126,7 +126,41 @@
                         <Setter Property="Padding" Value="0"/>
                     </Style>
                 </ListBox.ItemContainerStyle>
-                
+
+                <Image x:Name="MovingIcon" 
+                       Source="../Images/Moving.png"
+                       Width="32"
+                       Height="32"
+                       ToolTipService.ShowDuration="60000">
+
+                    <Image.ToolTip>
+                        <StackPanel Background="White">
+
+                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/Moving.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14" 
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Перемещение»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Left" 
+                                       FontSize="14"
+                                       Margin="15,5,0,0" 
+                                       FontFamily="Tahoma">
+                                Перемещение фигур с помощью мыши<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
+
                 <Image x:Name="BaseLineIcon" 
                        Source="../Images/ShapeLine.png"
                        Width="32"
@@ -138,7 +172,6 @@
 
                             <Image x:Name="ShapeLineGif" 
                                    xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/ShapeLine.gif"
-                                   xamlAnimatedGif:AnimationBehavior.RepeatBehavior="Forever"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Top"/>
 
@@ -154,7 +187,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок обычный"
+                                Инструмент «Отрезок обычный»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom"
@@ -162,7 +195,7 @@
                                        FontSize="14"
                                        Margin="15,5,0,0" 
                                        FontFamily="Tahoma">
-                                Рисование отрезка с помощью<LineBreak />
+                                Рисование отрезка с помощью<LineBreak/>
                                 встроенных средств
                             </TextBlock>
 
@@ -176,7 +209,7 @@
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
-                
+
 
                 <Image x:Name="BresenhamLineIcon" 
                        Width="32" 
@@ -198,7 +231,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок Брезенхэма"
+                                Инструмент «Отрезок Брезенхэма»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -206,7 +239,7 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Рисование отрезка с помощью <LineBreak />
+                                Рисование отрезка с помощью <LineBreak/>
                                 алгоритма Брезенхэма
                             </TextBlock>
 
@@ -242,7 +275,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок ВУ"
+                                Инструмент «Отрезок ВУ»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom"
@@ -292,7 +325,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент "Эллипс обычный"
+                                Инструмент «Эллипс обычный»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -300,7 +333,7 @@
                                        FontSize="14"
                                        Margin="15,5,0,0" 
                                        FontFamily="Tahoma">
-                                Рисование эллипса с помощью<LineBreak />
+                                Рисование эллипса с помощью<LineBreak/>
                                 встроенных средств
                             </TextBlock>
 
@@ -319,7 +352,7 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamEllipse.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000" IsEnabled="False">
 
                     <Image.ToolTip>
 
@@ -335,7 +368,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок ВУ"
+                                Инструмент «Эллипс Брезенхэма»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -343,8 +376,8 @@
                                        FontSize="14"
                                        Margin="15,5,0,0" 
                                        FontFamily="Tahoma">
-                                Рисование отрезка со сглаживанием
-                                <LineBreak />с помощью алгоритма У Сяолиня
+                                Рисование эллипса с помощью
+                                <LineBreak/>алгоритма Брезенхэма<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>
@@ -360,7 +393,7 @@
 
                         <StackPanel Background="White">
 
-                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/XiaolinWuLine.gif"
+                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/ShapeCircle.gif"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Top" />
 
@@ -370,7 +403,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок ВУ"
+                                Инструмент «Окружность обычная»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -378,8 +411,8 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Рисование отрезка со сглаживанием
-                                <LineBreak />с помощью алгоритма У Сяолиня
+                                Рисование окружности с помощью
+                                <LineBreak/>встроенных средств<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>
@@ -389,7 +422,7 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamCircle.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000" IsEnabled="False">
 
                     <Image.ToolTip>
 
@@ -405,7 +438,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок ВУ"
+                                Инструмент «Окружность Брезенхэма»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -413,8 +446,8 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Рисование отрезка со сглаживанием
-                                <LineBreak />с помощью алгоритма У Сяолиня
+                                Рисование окружность с помощью
+                                <LineBreak/>алгоритма Брезенхэма<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>
@@ -430,7 +463,7 @@
 
                         <StackPanel Background="White">
 
-                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/XiaolinWuLine.gif"
+                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/Eraser.gif"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Top"/>
 
@@ -440,7 +473,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент "Отрезок ВУ"
+                                Инструмент «Ластик»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -448,8 +481,7 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Рисование отрезка со сглаживанием
-                                <LineBreak />с помощью алгоритма У Сяолиня
+                                Полностью очищает поле для рисования<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>
@@ -484,7 +516,7 @@
                                        Margin="15,5,0,0" 
                                        FontFamily="Tahoma">
                                 Увеличение нужного участка изображения
-                                <LineBreak />с помощью лупы
+                                <LineBreak/>с помощью лупы<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>

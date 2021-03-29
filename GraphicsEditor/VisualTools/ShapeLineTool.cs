@@ -26,7 +26,7 @@
             Line.Y2 = currentPoint.Y;
         }
 
-        protected override Shape DrawingShape(Color color)
+        protected override Shape GenerateShape(Color color)
         {
             return Line = new Line
             {

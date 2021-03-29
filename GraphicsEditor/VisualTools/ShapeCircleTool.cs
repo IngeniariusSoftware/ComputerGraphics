@@ -6,33 +6,27 @@
     using System.Windows.Media;
     using System.Windows.Shapes;
     using Geometry;
-    using LineSegment = Geometry.LineSegment;
 
-    public class ShapeEllipseTool : ShapeTool
+    public class ShapeCircleTool : ShapeTool
     {
-        public ShapeEllipseTool(Panel panel)
+        public ShapeCircleTool(Panel panel)
             : base(panel)
         {
         }
 
         private Ellipse Ellipse { get; set; }
 
-        public override Point RotateToRoundAngle(LineSegment lineSegment) =>
-            MathGeometry.CeilingToPeriod(lineSegment, 90, -45);
-
         public override string ToString() =>
-            $"Ш:  {Math.Abs(StartPoint.X - LastPoint.X),5:F} пикс.\nВ:  {Math.Abs(StartPoint.Y - LastPoint.Y),6:F} пикс.";
+            $"Р:  {MathGeometry.Length(StartPoint, LastPoint),5:F} пикс.\nX: {StartPoint.X} Y: {StartPoint.Y}";
 
         protected override void Drawing(Point currentPoint, Color color)
         {
             base.Drawing(currentPoint, color);
-            Ellipse.Margin = new Thickness(
-                Math.Min(StartPoint.X, currentPoint.X),
-                Math.Min(StartPoint.Y, currentPoint.Y),
-                0,
-                0);
-            Ellipse.Width = Math.Abs(StartPoint.X - currentPoint.X);
-            Ellipse.Height = Math.Abs(StartPoint.Y - currentPoint.Y);
+            double length = Math.Min(MathGeometry.Length(StartPoint, currentPoint),
+                Math.Min(StartPoint.X, StartPoint.Y));
+            Ellipse.Width = length * 2;
+            Ellipse.Height = length * 2;
+            Ellipse.Margin = new Thickness(StartPoint.X - length, StartPoint.Y - length, 0, 0);
         }
 
         protected override Shape GenerateShape(Color color)
