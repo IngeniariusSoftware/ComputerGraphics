@@ -123,6 +123,7 @@
             CircleIcon.DataContext = new ShapeCircleTool(ShapeCanvas);
             EraserIcon.DataContext = new EraserTool(ShapeCanvas, BackgroundImage, ForegroundImage, buffer);
             MovingIcon.DataContext = new MovingTool(ShapeCanvas);
+            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundImage, ForegroundImage, buffer);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }

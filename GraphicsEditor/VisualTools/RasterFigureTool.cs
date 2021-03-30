@@ -36,7 +36,7 @@
         {
         }
 
-        protected void ClearBuffer()
+        protected virtual void ClearBuffer()
         {
             var start = new Point(Math.Min(StartPoint.X, LastPoint.X), Math.Min(StartPoint.Y, LastPoint.Y));
             var end = new Point(Math.Max(StartPoint.X, LastPoint.X), Math.Max(StartPoint.Y, LastPoint.Y));

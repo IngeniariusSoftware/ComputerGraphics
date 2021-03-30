@@ -422,13 +422,13 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamCircle.png"
-                       ToolTipService.ShowDuration="60000" IsEnabled="False">
+                       ToolTipService.ShowDuration="60000">
 
                     <Image.ToolTip>
 
                         <StackPanel Background="White">
 
-                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/XiaolinWuLine.gif"
+                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Top"/>
 
@@ -446,7 +446,7 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Рисование окружность с помощью
+                                Рисование окружности с помощью
                                 <LineBreak/>алгоритма Брезенхэма<LineBreak/>
                             </TextBlock>
                         </StackPanel>

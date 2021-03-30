@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Images\About.png" />
+    <None Remove="Images\BresenhamCircle.gif" />
     <None Remove="Images\BresenhamCircle.png" />
     <None Remove="Images\BresenhamEllipse.png" />
     <None Remove="Images\BresenhamLine.gif" />
@@ -49,6 +50,7 @@
 
   <ItemGroup>
     <Resource Include="Images\About.png" />
+    <Resource Include="Images\BresenhamCircle.gif" />
     <Resource Include="Images\BresenhamCircle.png" />
     <Resource Include="Images\BresenhamEllipse.png" />
     <Resource Include="Images\BresenhamLine.gif" />
