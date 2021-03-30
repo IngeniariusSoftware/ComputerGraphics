@@ -1,8 +1,8 @@
-namespace TestProject
+namespace Tests
 {
+    using System.Windows;
     using GraphicsEditor.Geometry;
     using NUnit.Framework;
-    using System.Windows;
 
     public class Tests
     {

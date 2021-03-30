@@ -1,8 +1,6 @@
 ﻿namespace GraphicsEditor.VisualTools
 {
-    using System;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Geometry;
@@ -10,15 +8,18 @@
 
     public class RasterFigureTool : RasterTool
     {
-        public RasterFigureTool(Image background, Image foreground, byte[] backgroundBuffer)
-            : base(background, foreground, backgroundBuffer)
+        public RasterFigureTool(WriteableBitmap background, WriteableBitmap foreground)
+            : base(background, foreground)
         {
+            EmptyColor = Color.FromArgb(0, 0, 0, 0);
         }
+
+        public Color EmptyColor { get; }
 
         public override void EndDrawing(Point currentPoint, Color color)
         {
             base.EndDrawing(currentPoint, color);
-            ClearBuffer();
+            Clear();
             DrawFigure(Background, currentPoint, color);
         }
 
@@ -27,7 +28,7 @@
 
         protected override void Drawing(Point currentPoint, Color color)
         {
-            ClearBuffer();
+            Clear();
             DrawFigure(Foreground, currentPoint, color);
             base.Drawing(currentPoint, color);
         }
@@ -36,16 +37,11 @@
         {
         }
 
-        protected virtual void ClearBuffer()
+        protected virtual void Clear()
         {
-            var start = new Point(Math.Min(StartPoint.X, LastPoint.X), Math.Min(StartPoint.Y, LastPoint.Y));
-            var end = new Point(Math.Max(StartPoint.X, LastPoint.X), Math.Max(StartPoint.Y, LastPoint.Y));
-            var size = new Int32Rect(
-                (int)start.X,
-                (int)start.Y,
-                (int)(end.X - start.X + 2),
-                (int)(end.Y - start.Y + 2));
-            Foreground.WritePixels(size, BackgroundBuffer, 4 * size.Width, 0);
+            IsEraseMode = true;
+            DrawFigure(Foreground, LastPoint, EmptyColor);
+            IsEraseMode = false;
         }
     }
 }

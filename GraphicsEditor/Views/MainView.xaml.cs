@@ -106,24 +106,26 @@
 
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            BackgroundImage.Source = new WriteableBitmap(
+            var background = new WriteableBitmap(
                 (int)SystemParameters.PrimaryScreenWidth,
                 (int)SystemParameters.PrimaryScreenHeight,
                 96,
                 96,
                 PixelFormats.Bgra32,
                 null);
+            BackgroundImage.Source = background;
             var buffer = new byte[4 * (int)BackgroundImage.Source.Width * (int)BackgroundImage.Source.Height];
-            ForegroundImage.Source = new WriteableBitmap((BitmapSource)BackgroundImage.Source);
+            var foreground = new WriteableBitmap((BitmapSource)BackgroundImage.Source);
+            ForegroundImage.Source = foreground;
             BaseLineIcon.DataContext = new ShapeLineTool(ShapeCanvas);
-            BresenhamLineIcon.DataContext = new BresenhamLineTool(BackgroundImage, ForegroundImage, buffer);
-            XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackgroundImage, ForegroundImage, buffer);
+            BresenhamLineIcon.DataContext = new BresenhamLineTool(background, foreground);
+            XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(background, foreground);
             EllipseIcon.DataContext = new ShapeEllipseTool(ShapeCanvas);
             MagnifierIcon.DataContext = new MagnifierTool();
             CircleIcon.DataContext = new ShapeCircleTool(ShapeCanvas);
-            EraserIcon.DataContext = new EraserTool(ShapeCanvas, BackgroundImage, ForegroundImage, buffer);
+            EraserIcon.DataContext = new EraserTool(ShapeCanvas, background, foreground, buffer);
             MovingIcon.DataContext = new MovingTool(ShapeCanvas);
-            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundImage, ForegroundImage, buffer);
+            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(background, foreground);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }

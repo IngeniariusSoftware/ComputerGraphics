@@ -1,36 +1,75 @@
 ﻿namespace GraphicsEditor.VisualTools
 {
+    using System;
     using System.Windows;
-    using System.Windows.Controls;
+    using System.Windows.Media;
     using System.Windows.Media.Imaging;
 
     public class RasterTool : BaseTool
     {
-        public RasterTool(Image background, Image foreground, byte[] backgroundBuffer)
+        public RasterTool(WriteableBitmap background, WriteableBitmap foreground)
         {
-            Background = (WriteableBitmap)background.Source;
-            Foreground = (WriteableBitmap)foreground.Source;
-            BackgroundBuffer = backgroundBuffer;
+            Background = background;
+            Foreground = foreground;
         }
 
         protected WriteableBitmap Background { get; }
 
         protected WriteableBitmap Foreground { get; }
 
-        protected byte[] BackgroundBuffer { get; }
+        protected bool IsEraseMode { get; set; }
 
-        protected static void DrawPoint(
-            WriteableBitmap bitmap,
-            int x,
-            int y,
-            byte[] color,
-            bool swap = false,
-            double intensity = 1)
+        protected void WritePixel(WriteableBitmap bitmap, Color color, int x, int y, bool isVertical = false)
         {
-            byte alpha = color[3];
-            color[3] = (byte)(alpha * intensity);
-            bitmap.WritePixels(new Int32Rect(swap ? y : x, swap ? x : y, 1, 1), color, 4, 0);
-            color[3] = alpha;
+            if (isVertical) (x, y) = (y, x);
+            if (IsEraseMode)
+            {
+                ErasePixel(bitmap, y, x);
+                return;
+            }
+
+            bitmap.Lock();
+            unsafe
+            {
+                // Get a pointer to the back buffer.
+                IntPtr pBackBuffer = bitmap.BackBuffer;
+
+                // Find the address of the pixel to draw.
+                pBackBuffer += y * bitmap.BackBufferStride;
+                pBackBuffer += x * 4;
+
+                // Compute the pixel's color.
+                int colorData = color.A << 24;
+                colorData |= color.R << 16; // R
+                colorData |= color.G << 8; // G
+                colorData |= color.B << 0; // B
+
+                // Assign the color data to the pixel.
+                *((int*)pBackBuffer) = colorData;
+            }
+
+            bitmap.AddDirtyRect(new Int32Rect(x, y, 1, 1));
+            bitmap.Unlock();
+        }
+
+        protected void ErasePixel(WriteableBitmap bitmap, int y, int x)
+        {
+            bitmap.Lock();
+            unsafe
+            {
+                // Get a pointer to the back buffer.
+                IntPtr pBackBuffer = bitmap.BackBuffer;
+
+                // Find the address of the pixel to draw.
+                pBackBuffer += y * bitmap.BackBufferStride;
+                pBackBuffer += x * 4;
+
+                // Assign the color data to the pixel.
+                *((int*)pBackBuffer) = 0;
+            }
+
+            bitmap.AddDirtyRect(new Int32Rect(x, y, 1, 1));
+            bitmap.Unlock();
         }
     }
 }

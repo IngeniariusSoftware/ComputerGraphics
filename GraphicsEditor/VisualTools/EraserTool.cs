@@ -7,11 +7,11 @@
 
     public class EraserTool : BaseTool
     {
-        public EraserTool(Panel panel, Image background, Image foreground, byte[] backgroundBuffer)
+        public EraserTool(Panel panel, WriteableBitmap background, WriteableBitmap foreground, byte[] backgroundBuffer)
         {
             Panel = panel;
-            Background = (WriteableBitmap)background.Source;
-            Foreground = (WriteableBitmap)foreground.Source;
+            Background = background;
+            Foreground = foreground;
             BackgroundBuffer = backgroundBuffer;
         }
 

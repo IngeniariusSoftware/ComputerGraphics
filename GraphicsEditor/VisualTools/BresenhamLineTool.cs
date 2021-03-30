@@ -2,21 +2,19 @@
 {
     using System;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Extensions;
 
     public class BresenhamLineTool : RasterFigureTool
     {
-        public BresenhamLineTool(Image background, Image foreground, byte[] backgroundBuffer)
-            : base(background, foreground, backgroundBuffer)
+        public BresenhamLineTool(WriteableBitmap background, WriteableBitmap foreground)
+            : base(background, foreground)
         {
         }
 
         protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
-            byte[] colorData = { color.B, color.G, color.R, color.A };
             Point startPoint = StartPoint;
             bool isVertical = Math.Abs(currentPoint.Y - startPoint.Y) > Math.Abs(currentPoint.X - startPoint.X);
             if (isVertical)
@@ -33,7 +31,7 @@
             int y = (int)startPoint.Y;
             for (int x = (int)startPoint.X; x <= currentPoint.X; x++)
             {
-                DrawPoint(bitmap, x, y, colorData, isVertical);
+                WritePixel(bitmap, color, x, y, isVertical);
                 error -= dy;
 
                 if (error >= 0) continue;
