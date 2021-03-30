@@ -78,9 +78,9 @@
             {
                 AboutDrawing.Text = information;
                 Point mousePoint = Mouse.GetPosition(DrawCanvas);
-                AboutDrawing.Margin = new Thickness(mousePoint.X + 20, mousePoint.Y + 10, 0, 0);
-                if (AboutDrawing.Visibility == Visibility.Visible) return;
-                AboutDrawing.Visibility = Visibility.Visible;
+                if (AboutDrawing.Visibility != Visibility.Visible) AboutDrawing.Visibility = Visibility.Visible;
+                AboutDrawing.Margin = new Thickness(Math.Clamp(mousePoint.X + 20, 0, DrawCanvas.ActualWidth - AboutDrawing.ActualWidth),
+                    Math.Clamp(mousePoint.Y + 10, 0, DrawCanvas.ActualHeight - AboutDrawing.ActualHeight), 0, 0);
             }
         }
 
