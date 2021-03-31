@@ -15,7 +15,7 @@
         }
 
         public override string ToString() =>
-            $"Р:  {(int)MathGeometry.Length(StartPoint, LastPoint),5:F} пикс.\nX: {StartPoint.X} Y: {StartPoint.Y}";
+            $"Р:  {MathGeometry.Length(StartPoint, LastPoint),5:F} пикс.\nX: {StartPoint.X} Y: {StartPoint.Y}";
 
         protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {

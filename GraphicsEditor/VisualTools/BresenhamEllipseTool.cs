@@ -13,6 +13,9 @@
         {
         }
 
+        public override string ToString() =>
+            $"Ш:  {Math.Abs(StartPoint.X - LastPoint.X),5:F} пикс.\nВ:  {Math.Abs(StartPoint.Y - LastPoint.Y),6:F} пикс.";
+
         protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
             int a = (int)Math.Abs(currentPoint.X - StartPoint.X) / 2;
