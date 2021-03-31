@@ -34,6 +34,8 @@
 
         public BresenhamEllipseTool BresenhamEllipseTool;
 
+        public BresenhamCircleTool BresenhamCircleTool;
+
         public XiaolinWuLineTool XiaolinWuLineTool;
 
         public int Height = 3000;
@@ -57,13 +59,21 @@
             BresenhamEllipseTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
             XiaolinWuLineTool = new XiaolinWuLineTool(background, foreground);
             XiaolinWuLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
+            BresenhamCircleTool = new BresenhamCircleTool(background, foreground);
+            BresenhamCircleTool.StartDrawing(new Point((Width / 2) - 10, (Height / 2) - 10), Color.FromRgb(0, 0, 0));
         }
 
-        //[Benchmark] public int BresenhamLineToolDrawing()
-        //{
-        //    BresenhamLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
-        //    return 0;
-        //}
+        [Benchmark] public int BresenhamCircleToolDrawing()
+        {
+            BresenhamCircleTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
+            return 0;
+        }
+
+        [Benchmark] public int BresenhamLineToolDrawing()
+        {
+            BresenhamLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
+            return 0;
+        }
 
         [Benchmark] public int BresenhamEllipseToolDrawing()
         {
@@ -72,10 +82,10 @@
         }
 
 
-        //[Benchmark] public int XiaolinWuLineToolDrawing()
-        //{
-        //    XiaolinWuLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
-        //    return 0;
-        //}
+        [Benchmark] public int XiaolinWuLineToolDrawing()
+        {
+            XiaolinWuLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
+            return 0;
+        }
     }
 }

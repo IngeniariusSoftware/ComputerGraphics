@@ -5,6 +5,7 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Geometry;
+    using Extensions;
 
     // https://habr.com/ru/post/185086/
     public class BresenhamCircleTool : RasterFigureTool
@@ -19,8 +20,11 @@
 
         protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
-            int radius = (int)Math.Min((int)MathGeometry.Length(StartPoint, currentPoint),
-                Math.Min(StartPoint.X, StartPoint.Y));
+            int radius = (int)Math.Round(MathGeometry.Length(StartPoint, currentPoint));
+            int deltaX = (int)Math.Abs(currentPoint.X - StartPoint.X - 1);
+            int deltaY = (int)Math.Abs(currentPoint.Y - StartPoint.Y - 1);
+            int maxRadius = MathExtension.Min((int)StartPoint.X, (int)StartPoint.Y, deltaX, deltaY);
+            radius = Math.Min(radius, maxRadius);
             if (radius < 1) return;
             BresenhamCircle(bitmap, color, StartPoint, radius);
         }

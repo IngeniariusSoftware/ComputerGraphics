@@ -6,6 +6,7 @@
     using System.Windows.Media;
     using System.Windows.Shapes;
     using Geometry;
+    using Extensions;
 
     public class ShapeCircleTool : ShapeTool
     {
@@ -22,11 +23,14 @@
         protected override void Drawing(Point currentPoint, Color color)
         {
             base.Drawing(currentPoint, color);
-            double length = Math.Min(MathGeometry.Length(StartPoint, currentPoint),
-                Math.Min(StartPoint.X, StartPoint.Y));
-            Ellipse.Width = length * 2;
-            Ellipse.Height = length * 2;
-            Ellipse.Margin = new Thickness(StartPoint.X - length, StartPoint.Y - length, 0, 0);
+            int radius = (int)Math.Round(MathGeometry.Length(StartPoint, currentPoint));
+            int deltaX = (int)Math.Abs(currentPoint.X - StartPoint.X);
+            int deltaY = (int)Math.Abs(currentPoint.Y - StartPoint.Y);
+            int maxRadius = MathExtension.Min((int)StartPoint.X, (int)StartPoint.Y, deltaX, deltaY);
+            radius = Math.Min(radius, maxRadius);
+            Ellipse.Width = radius * 2;
+            Ellipse.Height = radius * 2;
+            Ellipse.Margin = new Thickness(StartPoint.X - radius, StartPoint.Y - radius, 0, 0);
         }
 
         protected override Shape GenerateShape(Color color)

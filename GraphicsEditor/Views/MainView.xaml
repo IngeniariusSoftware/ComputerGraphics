@@ -14,8 +14,7 @@
         ResizeMode="CanResizeWithGrip" 
         Background="#FF282828"
         WindowStartupLocation="CenterScreen"
-        Icon="../Images/Icon.png"
-        BorderThickness="5">
+        Icon="../Images/Icon.png">
 
     <Grid Background="#FF3C3C3C">
 
@@ -358,7 +357,7 @@
 
                         <StackPanel Background="White">
 
-                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/XiaolinWuLine.gif"
+                            <Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamEllipse.gif"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Top"/>
 
@@ -377,8 +376,17 @@
                                        Margin="15,5,0,0" 
                                        FontFamily="Tahoma">
                                 Рисование эллипса с помощью
-                                <LineBreak/>алгоритма Брезенхэма<LineBreak/>
+                                <LineBreak/>алгоритма Брезенхэма
                             </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontSize="14"
+                                       Margin="15,10,0,10"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                <Underline>Shift</Underline>: режим рисования окружности
+                            </TextBlock>
+
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
