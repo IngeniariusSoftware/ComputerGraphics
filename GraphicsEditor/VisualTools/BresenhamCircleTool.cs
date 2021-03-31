@@ -6,6 +6,7 @@
     using System.Windows.Media.Imaging;
     using Geometry;
 
+    // https://habr.com/ru/post/185086/
     public class BresenhamCircleTool : RasterFigureTool
     {
         public BresenhamCircleTool(WriteableBitmap background, WriteableBitmap foreground)

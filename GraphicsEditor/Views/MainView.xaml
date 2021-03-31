@@ -352,7 +352,7 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamEllipse.png"
-                       ToolTipService.ShowDuration="60000" IsEnabled="False">
+                       ToolTipService.ShowDuration="60000">
 
                     <Image.ToolTip>
 

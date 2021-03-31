@@ -79,7 +79,8 @@
                 AboutDrawing.Text = information;
                 Point mousePoint = Mouse.GetPosition(DrawCanvas);
                 if (AboutDrawing.Visibility != Visibility.Visible) AboutDrawing.Visibility = Visibility.Visible;
-                AboutDrawing.Margin = new Thickness(Math.Clamp(mousePoint.X + 20, 0, DrawCanvas.ActualWidth - AboutDrawing.ActualWidth),
+                AboutDrawing.Margin = new Thickness(
+                    Math.Clamp(mousePoint.X + 20, 0, DrawCanvas.ActualWidth - AboutDrawing.ActualWidth),
                     Math.Clamp(mousePoint.Y + 10, 0, DrawCanvas.ActualHeight - AboutDrawing.ActualHeight), 0, 0);
             }
         }
@@ -126,6 +127,7 @@
             EraserIcon.DataContext = new EraserTool(ShapeCanvas, background, foreground, buffer);
             MovingIcon.DataContext = new MovingTool(ShapeCanvas);
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(background, foreground);
+            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(background, foreground);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
