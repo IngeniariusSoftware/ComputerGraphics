@@ -46,12 +46,12 @@
                 y++;
                 if (radiusError < 0)
                 {
-                    radiusError += (y << 1) + 1;
+                    radiusError += (y * 2) + 1;
                 }
                 else
                 {
                     x--;
-                    radiusError += (y - x + 1) << 1;
+                    radiusError += (y - x + 1) * 2;
                 }
             }
         }

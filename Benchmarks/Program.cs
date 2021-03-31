@@ -32,6 +32,8 @@
     {
         public BresenhamLineTool BresenhamLineTool;
 
+        public BresenhamEllipseTool BresenhamEllipseTool;
+
         public XiaolinWuLineTool XiaolinWuLineTool;
 
         public int Height = 3000;
@@ -49,23 +51,31 @@
                 null);
             var foreground = new WriteableBitmap(background);
             var buffer = new byte[4 * Height * Width];
-            BresenhamLineTool = new BresenhamLineTool(background, foreground, buffer);
+            BresenhamLineTool = new BresenhamLineTool(background, foreground);
             BresenhamLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            XiaolinWuLineTool = new XiaolinWuLineTool(background, foreground, buffer);
+            BresenhamEllipseTool = new BresenhamEllipseTool(background, foreground);
+            BresenhamEllipseTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
+            XiaolinWuLineTool = new XiaolinWuLineTool(background, foreground);
             XiaolinWuLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
         }
 
-        [Benchmark] public int BresenhamLineToolDrawing()
+        //[Benchmark] public int BresenhamLineToolDrawing()
+        //{
+        //    BresenhamLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
+        //    return 0;
+        //}
+
+        [Benchmark] public int BresenhamEllipseToolDrawing()
         {
-            BresenhamLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
+            BresenhamEllipseTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
             return 0;
         }
 
 
-        [Benchmark] public int XiaolinWuLineToolDrawing()
-        {
-            XiaolinWuLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
-            return 0;
-        }
+        //[Benchmark] public int XiaolinWuLineToolDrawing()
+        //{
+        //    XiaolinWuLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
+        //    return 0;
+        //}
     }
 }

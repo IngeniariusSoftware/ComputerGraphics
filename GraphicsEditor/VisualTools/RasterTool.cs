@@ -31,20 +31,13 @@
             bitmap.Lock();
             unsafe
             {
-                // Get a pointer to the back buffer.
                 IntPtr pBackBuffer = bitmap.BackBuffer;
-
-                // Find the address of the pixel to draw.
                 pBackBuffer += y * bitmap.BackBufferStride;
                 pBackBuffer += x * 4;
-
-                // Compute the pixel's color.
                 int colorData = color.A << 24;
-                colorData |= color.R << 16; // R
-                colorData |= color.G << 8; // G
-                colorData |= color.B << 0; // B
-
-                // Assign the color data to the pixel.
+                colorData |= color.R << 16;
+                colorData |= color.G << 8;
+                colorData |= color.B << 0;
                 *((int*)pBackBuffer) = colorData;
             }
 
@@ -57,14 +50,9 @@
             bitmap.Lock();
             unsafe
             {
-                // Get a pointer to the back buffer.
                 IntPtr pBackBuffer = bitmap.BackBuffer;
-
-                // Find the address of the pixel to draw.
                 pBackBuffer += y * bitmap.BackBufferStride;
                 pBackBuffer += x * 4;
-
-                // Assign the color data to the pixel.
                 *((int*)pBackBuffer) = 0;
             }
 

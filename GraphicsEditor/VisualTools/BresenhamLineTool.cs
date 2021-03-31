@@ -26,7 +26,7 @@
             if (startPoint.X > currentPoint.X) (startPoint, currentPoint) = (currentPoint, startPoint);
             int dx = (int)(currentPoint.X - startPoint.X);
             int dy = (int)Math.Abs(currentPoint.Y - startPoint.Y);
-            int error = dx >> 1;
+            int error = dx / 2;
             int stepY = startPoint.Y < currentPoint.Y ? 1 : -1;
             int y = (int)startPoint.Y;
             for (int x = (int)startPoint.X; x <= currentPoint.X; x++)

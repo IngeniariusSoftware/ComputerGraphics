@@ -15,8 +15,8 @@
 
         protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
         {
-            int a = (int)Math.Abs(currentPoint.X - StartPoint.X) >> 1;
-            int b = (int)Math.Abs(currentPoint.Y - StartPoint.Y) >> 1;
+            int a = (int)Math.Abs(currentPoint.X - StartPoint.X) / 2;
+            int b = (int)Math.Abs(currentPoint.Y - StartPoint.Y) / 2;
             if (a < 1 || b < 1) return;
             var center = new Point(Math.Min(StartPoint.X, currentPoint.X) + a,
                 Math.Min(StartPoint.Y, currentPoint.Y) + b);
@@ -39,21 +39,21 @@
             int y = b;
             long a2 = a * a;
             long b2 = b * b;
-            long err = b2 - (((b << 1) - 1) * a2);
+            long err = b2 - (((b * 2) - 1) * a2);
             do
             {
                 ReflectWritePixels(bitmap, centerX, centerY, x, y, color);
-                long e2 = err << 1;
-                if (e2 < ((x << 1) + 1) * b2)
+                long e2 = err * 2;
+                if (e2 < ((x * 2) + 1) * b2)
                 {
                     x++;
-                    err += ((x << 1) + 1) * b2;
+                    err += ((x * 2) + 1) * b2;
                 }
 
-                if (e2 > -((y << 1) - 1) * a2)
+                if (e2 > -((y * 2) - 1) * a2)
                 {
                     y--;
-                    err -= ((y << 1) - 1) * a2;
+                    err -= ((y * 2) - 1) * a2;
                 }
             }
             while (y >= 0);
