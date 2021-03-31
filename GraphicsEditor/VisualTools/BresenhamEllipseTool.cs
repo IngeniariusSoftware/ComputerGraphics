@@ -42,21 +42,21 @@
             int y = b;
             long a2 = a * a;
             long b2 = b * b;
-            long err = b2 - (((b * 2) - 1) * a2);
+            long error = b2 - (((b * 2) - 1) * a2);
             do
             {
                 ReflectWritePixels(bitmap, centerX, centerY, x, y, color);
-                long e2 = err * 2;
-                if (e2 < ((x * 2) + 1) * b2)
+                long error2 = error * 2;
+                if (error2 < ((x * 2) + 1) * b2)
                 {
                     x++;
-                    err += ((x * 2) + 1) * b2;
+                    error += ((x * 2) + 1) * b2;
                 }
 
-                if (e2 > -((y * 2) - 1) * a2)
+                if (error2 > -((y * 2) - 1) * a2)
                 {
                     y--;
-                    err -= ((y * 2) - 1) * a2;
+                    error -= ((y * 2) - 1) * a2;
                 }
             }
             while (y >= 0);
@@ -65,7 +65,7 @@
             {
                 x++;
                 WritePixel(bitmap, color, centerX + x, centerY);
-                WritePixel(bitmap, color, centerX + x, centerY);
+                WritePixel(bitmap, color, centerX - x, centerY);
             }
         }
     }
