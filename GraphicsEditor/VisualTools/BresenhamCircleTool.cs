@@ -3,14 +3,15 @@
     using System;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using Geometry;
     using Extensions;
 
-    // https://habr.com/ru/post/185086/
+    /// <summary>
+    /// Алгоритм сглаживания Брезенхэма https://habr.com/ru/post/185086/
+    /// </summary>
     public class BresenhamCircleTool : RasterFigureTool
     {
-        public BresenhamCircleTool(WriteableBitmap background, WriteableBitmap foreground)
+        public BresenhamCircleTool(IWriteableBitmap background, IWriteableBitmap foreground)
             : base(background, foreground)
         {
         }
@@ -18,18 +19,18 @@
         public override string ToString() =>
             $"Р:  {MathGeometry.Length(StartPoint, LastPoint),5:F} пикс.\nX: {StartPoint.X} Y: {StartPoint.Y}";
 
-        protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected override void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color)
         {
             int radius = (int)Math.Round(MathGeometry.Length(StartPoint, currentPoint));
-            int deltaX = (int)Math.Abs(currentPoint.X - StartPoint.X - 1);
-            int deltaY = (int)Math.Abs(currentPoint.Y - StartPoint.Y - 1);
+            int deltaX = (int)Math.Abs(bitmap.PixelWidth - StartPoint.X) - 1;
+            int deltaY = (int)Math.Abs(bitmap.PixelHeight - StartPoint.Y) - 1;
             int maxRadius = MathExtension.Min((int)StartPoint.X, (int)StartPoint.Y, deltaX, deltaY);
             radius = Math.Min(radius, maxRadius);
             if (radius < 1) return;
             BresenhamCircle(bitmap, color, StartPoint, radius);
         }
 
-        private void BresenhamCircle(WriteableBitmap bitmap, Color color, Point center, int radius)
+        private void BresenhamCircle(IWriteableBitmap bitmap, Color color, Point center, int radius)
         {
             int centerX = (int)center.X;
             int centerY = (int)center.Y;

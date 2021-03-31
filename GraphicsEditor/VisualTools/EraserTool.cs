@@ -3,11 +3,11 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
+    using Geometry;
 
     public class EraserTool : BaseTool
     {
-        public EraserTool(Panel panel, WriteableBitmap background, WriteableBitmap foreground, byte[] backgroundBuffer)
+        public EraserTool(Panel panel, IWriteableBitmap background, IWriteableBitmap foreground, byte[] backgroundBuffer)
         {
             Panel = panel;
             Background = background;
@@ -17,9 +17,9 @@
 
         protected Panel Panel { get; }
 
-        protected WriteableBitmap Background { get; }
+        protected IWriteableBitmap Background { get; }
 
-        protected WriteableBitmap Foreground { get; }
+        protected IWriteableBitmap Foreground { get; }
 
         protected byte[] BackgroundBuffer { get; }
 

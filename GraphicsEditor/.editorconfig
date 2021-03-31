@@ -29,3 +29,12 @@ dotnet_diagnostic.SA1629.severity = silent
 
 # SA1116: Split parameters should start on line after declaration
 dotnet_diagnostic.SA1116.severity = silent
+
+# Default severity for analyzer diagnostics with category 'StyleCop.CSharp.NamingRules'
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.NamingRules.severity = silent
+
+# SA1210: Using directives should be ordered alphabetically by namespace
+dotnet_diagnostic.SA1210.severity = silent
+
+# CA1822: Пометьте члены как статические
+dotnet_diagnostic.CA1822.severity = silent

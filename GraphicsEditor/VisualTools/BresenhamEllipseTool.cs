@@ -3,12 +3,14 @@
     using System;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
+    using Geometry;
 
-    // https://deru.qaz.wiki/wiki/Bresenham-Algorithmus
+    /// <summary>
+    /// Алгоритм сглаживания Брезенхэма https://deru.qaz.wiki/wiki/Bresenham-Algorithmus
+    /// </summary>
     public class BresenhamEllipseTool : RasterFigureTool
     {
-        public BresenhamEllipseTool(WriteableBitmap background, WriteableBitmap foreground)
+        public BresenhamEllipseTool(IWriteableBitmap background, IWriteableBitmap foreground)
             : base(background, foreground)
         {
         }
@@ -16,7 +18,7 @@
         public override string ToString() =>
             $"Ш:  {Math.Abs(StartPoint.X - LastPoint.X),5:F} пикс.\nВ:  {Math.Abs(StartPoint.Y - LastPoint.Y),6:F} пикс.";
 
-        protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected override void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color)
         {
             int a = (int)Math.Abs(currentPoint.X - StartPoint.X) / 2;
             int b = (int)Math.Abs(currentPoint.Y - StartPoint.Y) / 2;
@@ -26,7 +28,7 @@
             BresenhamEllipse(bitmap, center, a, b, color);
         }
 
-        private void ReflectWritePixels(WriteableBitmap bitmap, int centerX, int centerY, int x, int y, Color color)
+        private void ReflectWritePixels(IWriteableBitmap bitmap, int centerX, int centerY, int x, int y, Color color)
         {
             WritePixel(bitmap, color, centerX + x, centerY + y);
             WritePixel(bitmap, color, centerX + x, centerY - y);
@@ -34,7 +36,7 @@
             WritePixel(bitmap, color, centerX - x, centerY + y);
         }
 
-        private void BresenhamEllipse(WriteableBitmap bitmap, Point center, int a, int b, Color color)
+        private void BresenhamEllipse(IWriteableBitmap bitmap, Point center, int a, int b, Color color)
         {
             int centerX = (int)center.X;
             int centerY = (int)center.Y;

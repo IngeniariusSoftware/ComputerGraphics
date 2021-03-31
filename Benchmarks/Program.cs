@@ -8,8 +8,9 @@
     using BenchmarkDotNet.Running;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using GraphicsEditor.VisualTools;
+    using System.Windows.Media.Imaging;
+    using GraphicsEditor.Geometry;
 
     public class Program
     {
@@ -51,15 +52,16 @@
                 96,
                 PixelFormats.Bgra32,
                 null);
-            var foreground = new WriteableBitmap(background);
-            var buffer = new byte[4 * Height * Width];
-            BresenhamLineTool = new BresenhamLineTool(background, foreground);
+            IWriteableBitmap backBitmap = new VariableSizeWriteableBitmap(background, Width, Height);
+            IWriteableBitmap foreBitmap =
+                new VariableSizeWriteableBitmap(new WriteableBitmap(background), Width, Height);
+            BresenhamLineTool = new BresenhamLineTool(backBitmap, foreBitmap);
             BresenhamLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            BresenhamEllipseTool = new BresenhamEllipseTool(background, foreground);
+            BresenhamEllipseTool = new BresenhamEllipseTool(backBitmap, foreBitmap);
             BresenhamEllipseTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            XiaolinWuLineTool = new XiaolinWuLineTool(background, foreground);
+            XiaolinWuLineTool = new XiaolinWuLineTool(backBitmap, foreBitmap);
             XiaolinWuLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            BresenhamCircleTool = new BresenhamCircleTool(background, foreground);
+            BresenhamCircleTool = new BresenhamCircleTool(backBitmap, foreBitmap);
             BresenhamCircleTool.StartDrawing(new Point((Width / 2) - 10, (Height / 2) - 10), Color.FromRgb(0, 0, 0));
         }
 

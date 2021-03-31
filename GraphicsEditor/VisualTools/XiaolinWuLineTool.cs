@@ -3,20 +3,20 @@
     using System;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using Extensions;
+    using Geometry;
 
     /// <summary>
     /// Алгоритм сглаживания линии У Сяолиня https://habr.com/ru/post/185086/
     /// </summary>
     public class XiaolinWuLineTool : RasterFigureTool
     {
-        public XiaolinWuLineTool(WriteableBitmap background, WriteableBitmap foreground)
+        public XiaolinWuLineTool(IWriteableBitmap background, IWriteableBitmap foreground)
             : base(background, foreground)
         {
         }
 
-        protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected override void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color)
         {
             Point startPoint = StartPoint;
             bool isVertical = Math.Abs(currentPoint.Y - startPoint.Y) > Math.Abs(currentPoint.X - startPoint.X);

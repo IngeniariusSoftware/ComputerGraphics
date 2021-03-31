@@ -4,7 +4,7 @@ namespace Tests
     using GraphicsEditor.Geometry;
     using NUnit.Framework;
 
-    public class Tests
+    public class NUnitTests
     {
         [SetUp] public void Setup()
         {

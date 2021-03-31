@@ -2,13 +2,12 @@
 {
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using Geometry;
     using LineSegment = Geometry.LineSegment;
 
     public class RasterFigureTool : RasterTool
     {
-        public RasterFigureTool(WriteableBitmap background, WriteableBitmap foreground)
+        public RasterFigureTool(IWriteableBitmap background, IWriteableBitmap foreground)
             : base(background, foreground)
         {
             EmptyColor = Color.FromArgb(0, 0, 0, 0);
@@ -33,7 +32,7 @@
             base.Drawing(currentPoint, color);
         }
 
-        protected virtual void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected virtual void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color)
         {
         }
 

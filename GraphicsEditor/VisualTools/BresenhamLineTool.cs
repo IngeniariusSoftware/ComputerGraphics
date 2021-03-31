@@ -3,17 +3,17 @@
     using System;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using Extensions;
+    using Geometry;
 
     public class BresenhamLineTool : RasterFigureTool
     {
-        public BresenhamLineTool(WriteableBitmap background, WriteableBitmap foreground)
+        public BresenhamLineTool(IWriteableBitmap background, IWriteableBitmap foreground)
             : base(background, foreground)
         {
         }
 
-        protected override void DrawFigure(WriteableBitmap bitmap, Point currentPoint, Color color)
+        protected override void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color)
         {
             Point startPoint = StartPoint;
             bool isVertical = Math.Abs(currentPoint.Y - startPoint.Y) > Math.Abs(currentPoint.X - startPoint.X);

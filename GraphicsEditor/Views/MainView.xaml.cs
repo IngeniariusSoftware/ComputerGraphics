@@ -9,6 +9,7 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Controllers;
+    using Geometry;
     using VisualTools;
     using WindowState = System.Windows.WindowState;
 
@@ -47,6 +48,8 @@
                 (_, _) => ColorPicker.Background = new SolidColorBrush(CurrentColor);
             ToolPicker.PreviewMouseDown += ToolPicker_MouseDown;
             ColorPicker.SelectedColor = Colors.White;
+            BackBitmap = new VariableSizeWriteableBitmap();
+            ForeBitmap = new VariableSizeWriteableBitmap();
         }
 
         public event EventHandler<Point> StartDrawing = delegate { };
@@ -66,6 +69,10 @@
         public bool IsDragMode { get; private set; }
 
         private Stopwatch Watcher { get; }
+
+        private VariableSizeWriteableBitmap BackBitmap { get; set; }
+
+        private VariableSizeWriteableBitmap ForeBitmap { get; set; }
 
         public void ShowDrawingInformation(string information)
         {
@@ -118,16 +125,18 @@
             var buffer = new byte[4 * (int)BackgroundImage.Source.Width * (int)BackgroundImage.Source.Height];
             var foreground = new WriteableBitmap((BitmapSource)BackgroundImage.Source);
             ForegroundImage.Source = foreground;
+            BackBitmap.Bitmap = background;
+            ForeBitmap.Bitmap = foreground;
             BaseLineIcon.DataContext = new ShapeLineTool(ShapeCanvas);
-            BresenhamLineIcon.DataContext = new BresenhamLineTool(background, foreground);
-            XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(background, foreground);
+            BresenhamLineIcon.DataContext = new BresenhamLineTool(BackBitmap, ForeBitmap);
+            XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackBitmap, ForeBitmap);
             EllipseIcon.DataContext = new ShapeEllipseTool(ShapeCanvas);
             MagnifierIcon.DataContext = new MagnifierTool();
             CircleIcon.DataContext = new ShapeCircleTool(ShapeCanvas);
-            EraserIcon.DataContext = new EraserTool(ShapeCanvas, background, foreground, buffer);
+            EraserIcon.DataContext = new EraserTool(ShapeCanvas, BackBitmap, ForeBitmap, buffer);
             MovingIcon.DataContext = new MovingTool(ShapeCanvas);
-            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(background, foreground);
-            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(background, foreground);
+            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackBitmap, ForeBitmap);
+            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackBitmap, ForeBitmap);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
@@ -190,8 +199,14 @@
             DragMove();
         }
 
-        private void DrawCanvas_SizeChanged(object sender, SizeChangedEventArgs e) =>
+        private void DrawCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
             DrawAreaSizeChanged(this, e.NewSize);
+            BackBitmap.PixelWidth = (int)e.NewSize.Width;
+            BackBitmap.PixelHeight = (int)e.NewSize.Height;
+            ForeBitmap.PixelWidth = (int)e.NewSize.Width;
+            ForeBitmap.PixelHeight = (int)e.NewSize.Height;
+        }
 
         private void Resize() =>
             WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;

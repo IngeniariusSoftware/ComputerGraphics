@@ -3,23 +3,23 @@
     using System;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
+    using Geometry;
 
     public class RasterTool : BaseTool
     {
-        public RasterTool(WriteableBitmap background, WriteableBitmap foreground)
+        public RasterTool(IWriteableBitmap background, IWriteableBitmap foreground)
         {
             Background = background;
             Foreground = foreground;
         }
 
-        protected WriteableBitmap Background { get; }
+        protected IWriteableBitmap Background { get; }
 
-        protected WriteableBitmap Foreground { get; }
+        protected IWriteableBitmap Foreground { get; }
 
         protected bool IsEraseMode { get; set; }
 
-        protected void WritePixel(WriteableBitmap bitmap, Color color, int x, int y, bool isVertical = false)
+        protected void WritePixel(IWriteableBitmap bitmap, Color color, int x, int y, bool isVertical = false)
         {
             if (isVertical) (x, y) = (y, x);
             if (IsEraseMode)
@@ -45,7 +45,7 @@
             bitmap.Unlock();
         }
 
-        protected void ErasePixel(WriteableBitmap bitmap, int y, int x)
+        protected void ErasePixel(IWriteableBitmap bitmap, int y, int x)
         {
             bitmap.Lock();
             unsafe

@@ -24,8 +24,8 @@
         {
             base.Drawing(currentPoint, color);
             int radius = (int)Math.Round(MathGeometry.Length(StartPoint, currentPoint));
-            int deltaX = (int)Math.Abs(currentPoint.X - StartPoint.X);
-            int deltaY = (int)Math.Abs(currentPoint.Y - StartPoint.Y);
+            int deltaX = (int)Math.Abs((int)Panel.ActualWidth - StartPoint.X) - 1;
+            int deltaY = (int)Math.Abs((int)Panel.ActualHeight - StartPoint.Y) - 1;
             int maxRadius = MathExtension.Min((int)StartPoint.X, (int)StartPoint.Y, deltaX, deltaY);
             radius = Math.Min(radius, maxRadius);
             Ellipse.Width = radius * 2;
