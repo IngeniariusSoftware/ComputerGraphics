@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
@@ -28,14 +29,14 @@
             MinimizeButton.Click += (_, _) => WindowState = WindowState.Minimized;
             ResizeButton.Click += (_, _) => Resize();
 
-            DrawCanvas.PreviewMouseLeftButtonDown += DrawCanvas_PreviewMouseLeftButtonDown;
+            DrawCanvas.MouseLeftButtonDown += DrawCanvas_MouseLeftButtonDown;
             DrawCanvas.MouseMove += DrawCanvas_MouseMove;
-            DrawCanvas.PreviewMouseLeftButtonUp += DrawCanvas_PreviewMouseLeftButtonUp;
+            DrawCanvas.MouseLeftButtonUp += DrawCanvas_MouseLeftButtonUp;
             DrawCanvas.SizeChanged += DrawCanvas_SizeChanged;
 
-            BorderGrid.PreviewMouseLeftButtonDown += BorderGrid_PreviewMouseLeftButtonDown;
+            BorderGrid.MouseLeftButtonDown += BorderGrid_MouseLeftButtonDown;
             BorderGrid.MouseMove += BorderGrid_MouseMove;
-            BorderGrid.PreviewMouseLeftButtonUp += BorderGrid_PreviewMouseLeftButtonUp;
+            BorderGrid.MouseLeftButtonUp += BorderGrid_MouseLeftButtonUp;
 
             AboutButton.Click += AboutButton_Click;
 
@@ -47,6 +48,7 @@
             ColorPicker.SelectedColorChanged +=
                 (_, _) => ColorPicker.Background = new SolidColorBrush(CurrentColor);
             ToolPicker.PreviewMouseDown += ToolPicker_MouseDown;
+
             ColorPicker.SelectedColor = Colors.White;
             BackBitmap = new VariableSizeWriteableBitmap();
             ForeBitmap = new VariableSizeWriteableBitmap();
@@ -70,9 +72,9 @@
 
         private Stopwatch Watcher { get; }
 
-        private VariableSizeWriteableBitmap BackBitmap { get; set; }
+        private VariableSizeWriteableBitmap BackBitmap { get; }
 
-        private VariableSizeWriteableBitmap ForeBitmap { get; set; }
+        private VariableSizeWriteableBitmap ForeBitmap { get; }
 
         public void ShowDrawingInformation(string information)
         {
@@ -127,16 +129,20 @@
             ForegroundImage.Source = foreground;
             BackBitmap.Bitmap = background;
             ForeBitmap.Bitmap = foreground;
-            BaseLineIcon.DataContext = new ShapeLineTool(ShapeCanvas);
+            ShapeLineIcon.DataContext = new ShapeLineTool(ShapesCanvas);
             BresenhamLineIcon.DataContext = new BresenhamLineTool(BackBitmap, ForeBitmap);
             XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackBitmap, ForeBitmap);
-            EllipseIcon.DataContext = new ShapeEllipseTool(ShapeCanvas);
+            ShapeEllipseIcon.DataContext = new ShapeEllipseTool(ShapesCanvas);
             MagnifierIcon.DataContext = new MagnifierTool();
-            CircleIcon.DataContext = new ShapeCircleTool(ShapeCanvas);
-            EraserIcon.DataContext = new EraserTool(ShapeCanvas, BackBitmap, ForeBitmap, buffer);
-            MovingIcon.DataContext = new MovingTool(ShapeCanvas);
+            ShapeCircleIcon.DataContext = new ShapeCircleTool(ShapesCanvas);
+            EraserIcon.DataContext = new EraserTool(ShapesCanvas, BackBitmap, ForeBitmap, buffer);
+            MovingIcon.DataContext = new MovingTool(ShapesCanvas);
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackBitmap, ForeBitmap);
             BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackBitmap, ForeBitmap);
+            VisibilityWindowIcon.DataContext =
+                new VisibilityWindowTool(VisibleArea, ShapesCanvas, ShapesWindow, VisibilityButton);
+            var resizer = new ResizerController(ResizerIcon, VisibleArea);
+            var moveable = new MovingController(VisibleArea);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
@@ -151,18 +157,57 @@
         {
             e.Handled = true;
             if (e.Source is not Image image) return;
+            bool isToolDeselected = ToolPicker.SelectedItem == image;
+            if (isToolDeselected)
+            {
+                if (ToolPicker.SelectionMode == SelectionMode.Multiple)
+                {
+                    ToolPicker.SelectedItems.Remove(e.Source);
+                }
+                else
+                {
+                    ToolPicker.SelectedItem = null;
+                }
+            }
+            else
+            {
+                if (ToolPicker.SelectionMode == SelectionMode.Multiple)
+                {
+                    if (ToolPicker.SelectedItems.Count > 1) ToolPicker.SelectedItems.RemoveAt(1);
+                    ToolPicker.SelectedItems.Add(e.Source);
+                }
+                else
+                {
+                    ToolPicker.SelectedItem = e.Source;
+                }
+            }
+
             ToolSelected(this, image.DataContext as BaseTool);
-            ToolPicker.SelectedItem = ToolPicker.SelectedItem == image ? null : image;
+
+            if (e.Source != VisibilityWindowIcon) return;
+            if (isToolDeselected)
+            {
+                ToolPicker.Items.Filter = _ => true;
+                ToolPicker.SelectionMode = SelectionMode.Single;
+            }
+            else
+            {
+                var shapeInstruments = new Image[] { VisibilityWindowIcon, ShapeLineIcon };
+                ToolPicker.Items.Filter = x => shapeInstruments.Contains(x);
+                ToolPicker.SelectionMode = SelectionMode.Multiple;
+            }
         }
 
-        private void DrawCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DrawCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.Handled) return;
             StartDrawing(this, e.GetPosition(DrawCanvas));
             Mouse.Capture(DrawCanvas);
         }
 
         private void DrawCanvas_MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.Handled) return;
             Point mousePoint = e.GetPosition(DrawCanvas);
             Information.Text = $"x: {(int)mousePoint.X}; y: {(int)mousePoint.Y}";
 
@@ -170,21 +215,22 @@
             Drawing(this, mousePoint);
         }
 
-        private void DrawCanvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void DrawCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (e.Handled) return;
             EndDrawing(this, e.GetPosition(DrawCanvas));
             AboutDrawing.Visibility = Visibility.Collapsed;
             Mouse.Capture(null);
         }
 
-        private void BorderGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => IsDragMode = true;
+        private void BorderGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => IsDragMode = true;
 
         private void BorderGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && IsDragMode) DragWindow(e);
         }
 
-        private void BorderGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => IsDragMode = false;
+        private void BorderGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => IsDragMode = false;
 
         private void DragWindow(MouseEventArgs e)
         {
@@ -201,6 +247,36 @@
 
         private void DrawCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            int margin = 20;
+
+            if (VisibleArea.Margin.Left + VisibleArea.ActualWidth + margin > e.NewSize.Width)
+            {
+                if (VisibleArea.Margin.Left > margin)
+                {
+                    Thickness tmp = VisibleArea.Margin;
+                    tmp.Left = Math.Max(e.NewSize.Width - VisibleArea.ActualWidth - margin, margin);
+                    VisibleArea.Margin = tmp;
+                }
+                else
+                {
+                    VisibleArea.Width = Math.Max(e.NewSize.Width - (margin * 2), margin);
+                }
+            }
+
+            if (VisibleArea.Margin.Top + VisibleArea.ActualHeight + margin > e.NewSize.Height)
+            {
+                if (VisibleArea.Margin.Top > margin)
+                {
+                    Thickness tmp = VisibleArea.Margin;
+                    tmp.Top = Math.Max(e.NewSize.Height - VisibleArea.ActualHeight - margin, margin);
+                    VisibleArea.Margin = tmp;
+                }
+                else
+                {
+                    VisibleArea.Height = Math.Max(e.NewSize.Height - (margin * 2), margin);
+                }
+            }
+
             DrawAreaSizeChanged(this, e.NewSize);
             BackBitmap.PixelWidth = (int)e.NewSize.Width;
             BackBitmap.PixelHeight = (int)e.NewSize.Height;

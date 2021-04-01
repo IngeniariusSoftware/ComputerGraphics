@@ -14,7 +14,8 @@
         ResizeMode="CanResizeWithGrip" 
         Background="#FF282828"
         WindowStartupLocation="CenterScreen"
-        Icon="../Images/Icon.png">
+        Icon="../Images/Icon.png"
+        BorderThickness="3" MinHeight="240" MinWidth="360">
 
     <Grid Background="#FF3C3C3C">
 
@@ -70,6 +71,12 @@
                     BorderBrush="Transparent"
                     Foreground="White" 
                     FontSize="17" />
+
+            <Label x:Name="VersionLabel"
+                   Content="ver. 2021.04.01" 
+                   HorizontalAlignment="Left" 
+                   Margin="48,2,0,0" 
+                   VerticalAlignment="Center" Foreground="White"/>
         </Grid>
 
         <Grid x:Name="DrawCanvas"
@@ -77,11 +84,9 @@
               Background="#FF282828">
 
             <Image x:Name="BackgroundImage" 
-                   Margin="0" 
-                   Stretch="None" />
+                   Stretch="None"/>
 
-            <Image x:Name="ForegroundImage"
-                   Margin="0" 
+            <Image x:Name="ForegroundImage" 
                    Stretch="None" />
 
             <TextBlock x:Name="Information"
@@ -99,7 +104,42 @@
                        VerticalAlignment="Top" 
                        Visibility="Collapsed" />
 
-            <Canvas  x:Name="ShapeCanvas"/>
+            <Canvas x:Name="ShapesCanvas"/>
+
+            <Canvas x:Name="ShapesWindow"/>
+
+            <Border x:Name="VisibleArea"
+                    BorderThickness="1"
+                    BorderBrush="White" 
+                    Background="#02FFFFFF"
+                    Margin="300,100,0,0" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="300"
+                    Height="200"
+                    Visibility="Collapsed">
+                <Grid>
+                    <Button x:Name ="VisibilityButton"
+                            Width="32" 
+                            Height="32" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top" 
+                            Margin="0,-1,-1,0" 
+                            BorderBrush="White"
+                            DataContext="full">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Images/FullVisibility.png"/>
+                        </Button.Background>
+                    </Button>
+
+                    <Image x:Name ="ResizerIcon"
+                           Source="../Images/ResizerCorner.png" 
+                           Width="16"
+                           Height="16"
+                           HorizontalAlignment="Right" 
+                           VerticalAlignment="Bottom"/>
+                </Grid>
+            </Border>
 
         </Grid>
 
@@ -159,8 +199,7 @@
                     </Image.ToolTip>
                 </Image>
 
-
-                <Image x:Name="BaseLineIcon" 
+                <Image x:Name="ShapeLineIcon" 
                        Source="../Images/ShapeLine.png"
                        Width="32"
                        Height="32"
@@ -297,7 +336,7 @@
                     </Image.ToolTip>
                 </Image>
 
-                <Image x:Name="EllipseIcon" 
+                <Image x:Name="ShapeEllipseIcon" 
                        Width="32" 
                        Height="32" 
                        Source="../Images/ShapeEllipse.png"
@@ -391,7 +430,7 @@
                     </Image.ToolTip>
                 </Image>
 
-                <Image x:Name="CircleIcon"
+                <Image x:Name="ShapeCircleIcon"
                        Width="32"
                        Height="32" 
                        Source="../Images/ShapeCircle.png"
@@ -460,6 +499,13 @@
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
+
+                <Image x:Name="VisibilityWindowIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/VisiblityWindow.png"
+                       ToolTipService.ShowDuration="60000"/>
+
 
                 <Image x:Name="EraserIcon"
                        Width="32" 

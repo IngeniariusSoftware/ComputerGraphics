@@ -24,11 +24,15 @@
     <None Remove="Images\BresenhamLine.png" />
     <None Remove="Images\Eraser.gif" />
     <None Remove="Images\Eraser.png" />
+    <None Remove="Images\FullVisibility.png" />
     <None Remove="Images\Icon.png" />
     <None Remove="Images\Magnifier.gif" />
     <None Remove="Images\Magnifier.png" />
     <None Remove="Images\Moving.gif" />
     <None Remove="Images\Moving.png" />
+    <None Remove="Images\NoneVisibility.png" />
+    <None Remove="Images\PartialVisibility.png" />
+    <None Remove="Images\ResizerCorner.png" />
     <None Remove="Images\ShapeCircle.gif" />
     <None Remove="Images\ShapeCircle.png" />
     <None Remove="Images\ShapeEllipse.gif" />
@@ -38,6 +42,7 @@
     <None Remove="Images\ShiftModeEllipse.gif" />
     <None Remove="Images\ShiftModeLine.gif" />
     <None Remove="Images\SplashScreen.png" />
+    <None Remove="Images\VisiblityWindow.png" />
     <None Remove="Images\XiaolinWuLine.gif" />
     <None Remove="Images\XiaolinWuLine.png" />
     <None Remove="Readme.txt" />
@@ -67,11 +72,15 @@
     <Resource Include="Images\BresenhamLine.png" />
     <Resource Include="Images\Eraser.gif" />
     <Resource Include="Images\Eraser.png" />
+    <Resource Include="Images\FullVisibility.png" />
     <Resource Include="Images\Icon.png" />
     <Resource Include="Images\Magnifier.gif" />
     <Resource Include="Images\Magnifier.png" />
     <Resource Include="Images\Moving.gif" />
     <Resource Include="Images\Moving.png" />
+    <Resource Include="Images\NoneVisibility.png" />
+    <Resource Include="Images\PartialVisibility.png" />
+    <Resource Include="Images\ResizerCorner.png" />
     <Resource Include="Images\ShapeCircle.gif" />
     <Resource Include="Images\ShapeCircle.png" />
     <Resource Include="Images\ShapeEllipse.gif" />
@@ -80,10 +89,10 @@
     <Resource Include="Images\ShapeLine.png" />
     <Resource Include="Images\ShiftModeEllipse.gif" />
     <Resource Include="Images\ShiftModeLine.gif" />
+    <Resource Include="Images\VisiblityWindow.png" />
     <SplashScreen Include="Images\SplashScreen.png" />
     <Resource Include="Images\XiaolinWuLine.gif" />
     <Resource Include="Images\XiaolinWuLine.png" />
-    <Resource Include="Readme.txt" />
   </ItemGroup>
 
 </Project>
