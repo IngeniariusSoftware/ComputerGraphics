@@ -38,3 +38,15 @@ dotnet_diagnostic.SA1210.severity = silent
 
 # CA1822: Пометьте члены как статические
 dotnet_diagnostic.CA1822.severity = silent
+
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = silent
+
+# SA1201: Elements should appear in the correct order
+dotnet_diagnostic.SA1201.severity = silent
+
+# SA1134: Attributes should not share line
+dotnet_diagnostic.SA1134.severity = silent
+
+# SA1404: Code analysis suppression should have justification
+dotnet_diagnostic.SA1404.severity = silent
