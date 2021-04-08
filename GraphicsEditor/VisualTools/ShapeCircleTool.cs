@@ -2,16 +2,16 @@
 {
     using System;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
-    using Geometry;
     using Extensions;
+    using Geometry;
+    using UIElements;
 
     public class ShapeCircleTool : ShapeTool
     {
-        public ShapeCircleTool(Panel panel)
-            : base(panel)
+        public ShapeCircleTool(IPanel background, IPanel foreground)
+            : base(background, foreground)
         {
         }
 
@@ -24,8 +24,8 @@
         {
             base.Drawing(currentPoint, color);
             int radius = (int)Math.Round(MathGeometry.Length(StartPoint, currentPoint));
-            int deltaX = (int)Math.Abs((int)Panel.ActualWidth - StartPoint.X) - 1;
-            int deltaY = (int)Math.Abs((int)Panel.ActualHeight - StartPoint.Y) - 1;
+            int deltaX = (int)Math.Abs((int)Background.ActualWidth - StartPoint.X) - 1;
+            int deltaY = (int)Math.Abs((int)Background.ActualHeight - StartPoint.Y) - 1;
             int maxRadius = MathExtension.Min((int)StartPoint.X, (int)StartPoint.Y, deltaX, deltaY);
             radius = Math.Min(radius, maxRadius);
             Ellipse.Width = radius * 2;

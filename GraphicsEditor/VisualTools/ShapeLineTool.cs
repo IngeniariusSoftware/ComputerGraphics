@@ -1,16 +1,16 @@
 ﻿namespace GraphicsEditor.VisualTools
 {
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
     using Geometry;
+    using UIElements;
     using LineSegment = Geometry.LineSegment;
 
     public class ShapeLineTool : ShapeTool
     {
-        public ShapeLineTool(Panel panel)
-            : base(panel)
+        public ShapeLineTool(IPanel background, IPanel foreground)
+            : base(background, foreground)
         {
         }
 

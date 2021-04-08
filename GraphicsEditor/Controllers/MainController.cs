@@ -1,6 +1,8 @@
 ﻿namespace GraphicsEditor.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using Geometry;
     using Views;
@@ -19,13 +21,21 @@
             View.AlternativeModeSwitched += OnAlternativeModeSwitched;
             View.DrawAreaSizeChanged += OnDrawAreaSizeChanged;
             EmptyTool = new BaseTool();
-            CurrentTool = EmptyTool;
             DrawArea = new Rectangle(new Point(0, 0), new Point(0, 0));
+            Tools = new List<BaseTool>();
         }
 
         private BaseTool EmptyTool { get; }
 
-        private BaseTool CurrentTool { get; set; }
+        private BaseTool CurrentTool => Tools.Count switch
+        {
+            0 => EmptyTool,
+            1 => Tools[0],
+            2 => Tools[1],
+            _ => throw new Exception("Поддерживается не более двух инструментов одновременно")
+        };
+
+        private List<BaseTool> Tools { get; }
 
         private MainView View { get; }
 
@@ -66,14 +76,28 @@
 
         private void OnToolSelected(object sender, BaseTool tool)
         {
-            if (CurrentTool == tool)
+            if (Tools.Contains(tool))
             {
-                CurrentTool.Close();
-                CurrentTool = EmptyTool;
+                if (tool is VisibilityWindowTool)
+                {
+                    Tools.ForEach(x => x.Close());
+                    Tools.Clear();
+                }
+                else
+                {
+                    CurrentTool.Close();
+                    Tools.Remove(CurrentTool);
+                }
             }
             else
             {
-                CurrentTool = tool;
+                if (Tools.Count == 2 || (Tools.Count == 1 && !Tools.Exists(x => x is VisibilityWindowTool)))
+                {
+                    CurrentTool.Close();
+                    Tools.Remove(CurrentTool);
+                }
+
+                Tools.Add(tool);
                 CurrentTool.Open();
             }
         }

@@ -26,6 +26,9 @@
     <None Remove="Images\Eraser.png" />
     <None Remove="Images\FullVisibility.png" />
     <None Remove="Images\Icon.png" />
+    <None Remove="Images\InverseFullVisibility.png" />
+    <None Remove="Images\InverseNoneVisibility.png" />
+    <None Remove="Images\InversePartialVisibility.png" />
     <None Remove="Images\Magnifier.gif" />
     <None Remove="Images\Magnifier.png" />
     <None Remove="Images\Moving.gif" />
@@ -74,6 +77,9 @@
     <Resource Include="Images\Eraser.png" />
     <Resource Include="Images\FullVisibility.png" />
     <Resource Include="Images\Icon.png" />
+    <Resource Include="Images\InverseFullVisibility.png" />
+    <Resource Include="Images\InverseNoneVisibility.png" />
+    <Resource Include="Images\InversePartialVisibility.png" />
     <Resource Include="Images\Magnifier.gif" />
     <Resource Include="Images\Magnifier.png" />
     <Resource Include="Images\Moving.gif" />

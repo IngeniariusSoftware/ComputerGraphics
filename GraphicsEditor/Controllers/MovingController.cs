@@ -16,6 +16,8 @@
             Element.MouseLeftButtonUp += OnMouseLeftButtonUp;
         }
 
+        public event EventHandler<Thickness> MarginChanged = delegate { };
+
         private FrameworkElement Element { get; }
 
         private Panel Parent { get; }
@@ -49,6 +51,7 @@
                         Parent.ActualHeight - Element.ActualHeight - margin), 0,
                     0);
             e.Handled = true;
+            MarginChanged(Element, Element.Margin);
         }
 
         private void OnMouseLeftButtonUp(object sender, RoutedEventArgs e)

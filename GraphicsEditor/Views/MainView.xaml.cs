@@ -11,6 +11,7 @@
     using System.Windows.Media.Imaging;
     using Controllers;
     using Geometry;
+    using UIElements;
     using VisualTools;
     using WindowState = System.Windows.WindowState;
 
@@ -50,8 +51,8 @@
             ToolPicker.PreviewMouseDown += ToolPicker_MouseDown;
 
             ColorPicker.SelectedColor = Colors.White;
-            BackBitmap = new VariableSizeWriteableBitmap();
-            ForeBitmap = new VariableSizeWriteableBitmap();
+            BackgroundBitmap = new VariableSizeWriteableBitmap();
+            ForegroundBitmap = new VariableSizeWriteableBitmap();
         }
 
         public event EventHandler<Point> StartDrawing = delegate { };
@@ -72,9 +73,9 @@
 
         private Stopwatch Watcher { get; }
 
-        private VariableSizeWriteableBitmap BackBitmap { get; }
+        private VariableSizeWriteableBitmap BackgroundBitmap { get; }
 
-        private VariableSizeWriteableBitmap ForeBitmap { get; }
+        private VariableSizeWriteableBitmap ForegroundBitmap { get; }
 
         public void ShowDrawingInformation(string information)
         {
@@ -123,26 +124,29 @@
                 96,
                 PixelFormats.Bgra32,
                 null);
-            BackgroundImage.Source = background;
-            var buffer = new byte[4 * (int)BackgroundImage.Source.Width * (int)BackgroundImage.Source.Height];
-            var foreground = new WriteableBitmap((BitmapSource)BackgroundImage.Source);
-            ForegroundImage.Source = foreground;
-            BackBitmap.Bitmap = background;
-            ForeBitmap.Bitmap = foreground;
-            ShapeLineIcon.DataContext = new ShapeLineTool(ShapesCanvas);
-            BresenhamLineIcon.DataContext = new BresenhamLineTool(BackBitmap, ForeBitmap);
-            XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackBitmap, ForeBitmap);
-            ShapeEllipseIcon.DataContext = new ShapeEllipseTool(ShapesCanvas);
+            RasterBackground.Source = background;
+            var buffer = new byte[4 * (int)RasterBackground.Source.Width * (int)RasterBackground.Source.Height];
+            var foreground = new WriteableBitmap((BitmapSource)RasterBackground.Source);
+            RasterForeground.Source = foreground;
+            BackgroundBitmap.Bitmap = background;
+            ForegroundBitmap.Bitmap = foreground;
+            IPanel vectorBackground = new ExtendedPanel(VectorBackground, new ExtendedUIElementCollection(VectorBackground.Children));
+            IPanel vectorForeground = new ExtendedPanel(VectorForeground, new ExtendedUIElementCollection(VectorForeground.Children));
+            ShapeLineIcon.DataContext = new ShapeLineTool(vectorBackground, vectorForeground);
+            BresenhamLineIcon.DataContext = new BresenhamLineTool(BackgroundBitmap, ForegroundBitmap);
+            XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackgroundBitmap, ForegroundBitmap);
+            ShapeEllipseIcon.DataContext = new ShapeEllipseTool(vectorBackground, vectorForeground);
             MagnifierIcon.DataContext = new MagnifierTool();
-            ShapeCircleIcon.DataContext = new ShapeCircleTool(ShapesCanvas);
-            EraserIcon.DataContext = new EraserTool(ShapesCanvas, BackBitmap, ForeBitmap, buffer);
-            MovingIcon.DataContext = new MovingTool(ShapesCanvas);
-            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackBitmap, ForeBitmap);
-            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackBitmap, ForeBitmap);
+            ShapeCircleIcon.DataContext = new ShapeCircleTool(vectorBackground, vectorForeground);
+            EraserIcon.DataContext = new EraserTool(VectorBackground, BackgroundBitmap, ForegroundBitmap, buffer);
+            MovingIcon.DataContext = new MovingTool(VectorBackground);
+            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
+            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackgroundBitmap, ForegroundBitmap);
+            var resizerController = new ResizerController(ResizerIcon, VisibleArea);
+            var movingController = new MovingController(VisibleArea);
             VisibilityWindowIcon.DataContext =
-                new VisibilityWindowTool(VisibleArea, ShapesCanvas, ShapesWindow, VisibilityButton);
-            var resizer = new ResizerController(ResizerIcon, VisibleArea);
-            var moveable = new MovingController(VisibleArea);
+                new VisibilityWindowTool(VisibleArea, vectorBackground, ShapesWindow, VisibilityIcon, movingController,
+                    resizerController);
             Watcher.Stop();
             Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
@@ -157,7 +161,7 @@
         {
             e.Handled = true;
             if (e.Source is not Image image) return;
-            bool isToolDeselected = ToolPicker.SelectedItem == image;
+            bool isToolDeselected = ToolPicker.SelectedItems.Contains(e.Source);
             if (isToolDeselected)
             {
                 if (ToolPicker.SelectionMode == SelectionMode.Multiple)
@@ -188,6 +192,7 @@
             if (isToolDeselected)
             {
                 ToolPicker.Items.Filter = _ => true;
+                ToolPicker.SelectedItems.Clear();
                 ToolPicker.SelectionMode = SelectionMode.Single;
             }
             else
@@ -278,10 +283,10 @@
             }
 
             DrawAreaSizeChanged(this, e.NewSize);
-            BackBitmap.PixelWidth = (int)e.NewSize.Width;
-            BackBitmap.PixelHeight = (int)e.NewSize.Height;
-            ForeBitmap.PixelWidth = (int)e.NewSize.Width;
-            ForeBitmap.PixelHeight = (int)e.NewSize.Height;
+            BackgroundBitmap.PixelWidth = (int)e.NewSize.Width;
+            BackgroundBitmap.PixelHeight = (int)e.NewSize.Height;
+            ForegroundBitmap.PixelWidth = (int)e.NewSize.Width;
+            ForegroundBitmap.PixelHeight = (int)e.NewSize.Height;
         }
 
         private void Resize() =>

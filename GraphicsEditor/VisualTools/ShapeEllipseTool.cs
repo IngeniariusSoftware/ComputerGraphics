@@ -2,16 +2,16 @@
 {
     using System;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
     using Geometry;
+    using UIElements;
     using LineSegment = Geometry.LineSegment;
 
     public class ShapeEllipseTool : ShapeTool
     {
-        public ShapeEllipseTool(Panel panel)
-            : base(panel)
+        public ShapeEllipseTool(IPanel background, IPanel foreground)
+            : base(background, foreground)
         {
         }
 

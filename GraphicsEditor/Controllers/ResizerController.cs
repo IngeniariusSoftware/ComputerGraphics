@@ -19,6 +19,8 @@
             ResizerElement.MouseMove += OnMouseMove;
         }
 
+        public event EventHandler<Thickness> MarginChanged = delegate { };
+
         private bool IsResizeMode { get; set; }
 
         private FrameworkElement ResizerElement { get; }
@@ -49,6 +51,7 @@
             ResizeTarget.Width = Math.Clamp(mouse.X, margin, Parent.ActualWidth - ResizeTarget.Margin.Left - margin);
             ResizeTarget.Height = Math.Clamp(mouse.Y, margin, Parent.ActualHeight - ResizeTarget.Margin.Top - margin);
             e.Handled = true;
+            MarginChanged(ResizeTarget, ResizeTarget.Margin);
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseEventArgs e)

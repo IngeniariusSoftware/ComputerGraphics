@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows;
+    using System.Windows.Shapes;
     using Extensions;
 
     public record LineSegment
@@ -30,5 +31,8 @@
         public double Slope { get; }
 
         public double InterceptY { get; }
+
+        public static implicit operator LineSegment(Line line) =>
+            new LineSegment(new Point(line.X1, line.Y1), new Point(line.X2, line.Y2));
     }
 }

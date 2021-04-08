@@ -20,6 +20,7 @@ namespace GraphicsEditor.Geometry
 
             List<Point> points = IntersectionPoints(lineSegment, rectangle);
             points = points.Where(rectangle.Contains).ToList();
+            if (points.Count == 0) return null;
             Point start = startCode == 0 ? lineSegment.Start : NearestPoint(lineSegment.Start, points);
             Point end = endCode == 0 ? lineSegment.End : NearestPoint(lineSegment.End, points);
             return new LineSegment(start, end);
@@ -69,7 +70,7 @@ namespace GraphicsEditor.Geometry
 
             points.Add(new Point(
                 (lineSegment.InterceptY - rectangle.Start.Y) / (0.0 - lineSegment.Slope),
-                rectangle.Start.X));
+                rectangle.Start.Y));
             points.Add(new Point(
                 (lineSegment.InterceptY - rectangle.End.Y) / (0.0 - lineSegment.Slope),
                 rectangle.End.Y));
@@ -97,15 +98,13 @@ namespace GraphicsEditor.Geometry
         private static Point NearestPoint(Point point, IReadOnlyCollection<Point> neighbors)
         {
             Point result = neighbors.First();
-            double len = (point - result).Length;
+            double minLength = (point - result).Length;
             foreach (var neighbor in neighbors)
             {
-                double newLen = (point - neighbor).Length;
-                if (newLen < len)
-                {
-                    len = newLen;
-                    result = neighbor;
-                }
+                double length = (point - neighbor).Length;
+                if (length >= minLength) continue;
+                minLength = length;
+                result = neighbor;
             }
 
             return result;
