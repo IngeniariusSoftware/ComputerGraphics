@@ -1,11 +1,13 @@
 ﻿namespace GraphicsEditor.Views
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
@@ -39,7 +41,9 @@
             BorderGrid.MouseMove += BorderGrid_MouseMove;
             BorderGrid.MouseLeftButtonUp += BorderGrid_MouseLeftButtonUp;
 
-            AboutButton.Click += AboutButton_Click;
+            AboutButton.DataContext = About;
+            AboutButton.PreviewMouseLeftButtonUp += (_, _) => About.IsOpen = true;
+            AboutButton.MouseLeave += (_, _) => About.IsOpen = false;
 
             StateChanged += (_, _) => ResizeButton.Content = WindowState == WindowState.Maximized ? "🗗" : "🗖";
             Loaded += Windows_Loaded;
@@ -48,7 +52,8 @@
 
             ColorPicker.SelectedColorChanged +=
                 (_, _) => ColorPicker.Background = new SolidColorBrush(CurrentColor);
-            ToolPicker.PreviewMouseDown += ToolPicker_MouseDown;
+            ToolPicker.PreviewMouseLeftButtonDown += ToolPicker_PreviewMouseLeftButtonDown;
+            ToolPicker.PreviewMouseRightButtonDown += (_, args) => args.Handled = true;
 
             ColorPicker.SelectedColor = Colors.White;
             BackgroundBitmap = new VariableSizeWriteableBitmap();
@@ -137,43 +142,96 @@
             IPanel vectorForeground = new ExtendedPanel(VectorForeground,
                 new ExtendedUIElementCollection(VectorForeground.Children));
             ShapeLineIcon.DataContext = new ShapeLineTool(vectorBackground, vectorForeground);
+            ShapeLinePanel.DataContext = ShapeLineIcon;
             BresenhamLineIcon.DataContext = new BresenhamLineTool(BackgroundBitmap, ForegroundBitmap);
+            BresenhamLinePanel.DataContext = BresenhamLineIcon;
             XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackgroundBitmap, ForegroundBitmap);
+            XiaolinWuLinePanel.DataContext = XiaolinWuLineIcon;
             ShapeEllipseIcon.DataContext = new ShapeEllipseTool(vectorBackground, vectorForeground);
-            MagnifierIcon.DataContext = new MagnifierTool();
+            ShapeEllipsePanel.DataContext = ShapeEllipseIcon;
+            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackgroundBitmap, ForegroundBitmap);
+            BresenhamEllipsePanel.DataContext = BresenhamEllipseIcon;
             ShapeCircleIcon.DataContext = new ShapeCircleTool(vectorBackground, vectorForeground);
+            ShapeCirclePanel.DataContext = ShapeCircleIcon;
+            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
+            BresenhamCirclePanel.DataContext = BresenhamCircleIcon;
+            FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
+            FillPanel.DataContext = FillIcon;
+            ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
+            ByLineFillPanel.DataContext = ByLineFillIcon;
             RasterEraserIcon.DataContext = new RasterEraserTool(BackgroundBitmap, buffer);
             ShapeEraserIcon.DataContext = new ShapeEraserTool(VectorBackground);
             MovingIcon.DataContext = new MovingTool(VectorBackground);
-            BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
-            BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackgroundBitmap, ForegroundBitmap);
-            FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
-            ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
+            MagnifierIcon.DataContext = new MagnifierTool();
             var resizerController = new ResizerController(ResizerIcon, VisibleArea);
             var movingController = new MovingController(VisibleArea);
             VisibilityWindowIcon.DataContext =
                 new VisibilityWindowTool(VisibleArea, vectorBackground, ShapesWindow, VisibilityIcon, movingController,
                     resizerController);
+
+            var lines = new List<FrameworkElement> { ShapeLineIcon, BresenhamLineIcon, XiaolinWuLineIcon };
+            lines.ForEach(x => x.MouseRightButtonUp += (_, _) => LinesPopup.IsOpen = true);
+            LinesPicker.DataContext = lines;
+            LinesPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
+            LinesPicker.SelectionChanged += (_, _) => LinesPopup.IsOpen = false;
+
+            var ellipses = new List<FrameworkElement>
+                { ShapeEllipseIcon, BresenhamEllipseIcon, ShapeCircleIcon, BresenhamCircleIcon };
+            ellipses.ForEach(x => x.MouseRightButtonUp += (_, _) => EllipsesPopup.IsOpen = true);
+            EllipsesPicker.DataContext = ellipses;
+            EllipsesPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
+            EllipsesPicker.SelectionChanged += (_, _) => EllipsesPopup.IsOpen = false;
+
+            var fillers = new List<FrameworkElement> { FillIcon, ByLineFillIcon };
+            fillers.ForEach(x => x.MouseRightButtonUp += (_, _) => FillPopup.IsOpen = true);
+            FillPicker.DataContext = fillers;
+            FillPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
+            FillPicker.SelectionChanged += (_, _) => FillPopup.IsOpen = false;
+
             Watcher.Stop();
-            Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
+            // Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
 
-        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        private void NestedToolPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            About.IsOpen = false;
-            About.IsOpen = true;
+            if (sender is not ListBox list) return;
+            if (list.SelectedItem == null) return;
+            if (list.DataContext is not IEnumerable<FrameworkElement> tools) return;
+            foreach (FrameworkElement t in tools)
+            {
+                t.Visibility = Visibility.Collapsed;
+            }
+
+            if (list.SelectedItem is not FrameworkElement selected) throw new Exception();
+            if (selected.DataContext is not FrameworkElement tool) throw new Exception();
+
+            tool.Visibility = Visibility.Visible;
+            SelectTool(tool);
+            list.UnselectAll();
         }
 
-        private void ToolPicker_MouseDown(object sender, MouseEventArgs e)
+        private void ToolPicker_PreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
         {
+            if (e.Source == sender)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Source is not FrameworkElement element) return;
+            if (element.DataContext is not BaseTool) return;
             e.Handled = true;
-            if (e.Source is not Image image) return;
-            bool isToolDeselected = ToolPicker.SelectedItems.Contains(e.Source);
+            SelectTool(element);
+        }
+
+        private void SelectTool(FrameworkElement tool)
+        {
+            bool isToolDeselected = ToolPicker.SelectedItems.Contains(tool);
             if (isToolDeselected)
             {
                 if (ToolPicker.SelectionMode == SelectionMode.Multiple)
                 {
-                    ToolPicker.SelectedItems.Remove(e.Source);
+                    ToolPicker.SelectedItems.Remove(tool);
                 }
                 else
                 {
@@ -185,17 +243,17 @@
                 if (ToolPicker.SelectionMode == SelectionMode.Multiple)
                 {
                     if (ToolPicker.SelectedItems.Count > 1) ToolPicker.SelectedItems.RemoveAt(1);
-                    ToolPicker.SelectedItems.Add(e.Source);
+                    ToolPicker.SelectedItems.Add(tool);
                 }
                 else
                 {
-                    ToolPicker.SelectedItem = e.Source;
+                    ToolPicker.SelectedItem = tool;
                 }
             }
 
-            ToolSelected(this, image.DataContext as BaseTool);
+            ToolSelected(this, tool.DataContext as BaseTool);
 
-            if (e.Source != VisibilityWindowIcon) return;
+            if (tool != VisibilityWindowIcon) return;
             if (isToolDeselected)
             {
                 ToolPicker.Items.Filter = _ => true;
@@ -204,7 +262,7 @@
             }
             else
             {
-                var shapeInstruments = new Image[] { VisibilityWindowIcon, ShapeLineIcon };
+                var shapeInstruments = new[] { VisibilityWindowIcon, ShapeLineIcon };
                 ToolPicker.Items.Filter = x => shapeInstruments.Contains(x);
                 ToolPicker.SelectionMode = SelectionMode.Multiple;
             }

@@ -70,7 +70,20 @@
                     Margin="0,0,150,0" 
                     BorderBrush="Transparent"
                     Foreground="White" 
-                    FontSize="17" />
+                    FontSize="17"/>
+
+            <Popup Name="About" 
+                   StaysOpen="False" 
+                   Placement="MousePoint"
+                   HorizontalOffset="30"
+                   VerticalOffset="30"
+                   PopupAnimation="Fade"
+                   AllowsTransparency="True">
+
+                <Grid Width="750">
+                    <Image Source="../Images/About.png" />
+                </Grid>
+            </Popup>
 
             <Label x:Name="VersionLabel"
                    Content="ver. 2021.04.09" 
@@ -113,7 +126,7 @@
                            HorizontalAlignment="Right"
                            VerticalAlignment="Top"
                            Margin="0,-1,-1,0"/>
-                    
+
                     <Image x:Name ="ResizerIcon"
                            Source="../Images/ResizerCorner.png" 
                            Width="16"
@@ -196,6 +209,66 @@
                     </Image.ToolTip>
                 </Image>
 
+                <Popup Name="LinesPopup" 
+                       StaysOpen="False" 
+                       Placement="Right"
+                       HorizontalOffset="39"
+                       VerticalOffset="-38"
+                       PopupAnimation="None"
+                       AllowsTransparency="True">
+
+                    <ListBox x:Name="LinesPicker" 
+                             Background="#FF3C3C3C">
+
+                        <StackPanel x:Name="ShapeLinePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/ShapeLine.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Отрезок обычный»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="BresenhamLinePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/BresenhamLine.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Отрезок Брезенхэма»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="XiaolinWuLinePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/XiaolinWuLine.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Отрезок ВУ»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                    </ListBox>
+
+                </Popup>
+
                 <Image x:Name="ShapeLineIcon" 
                        Source="../Images/ShapeLine.png"
                        Width="32"
@@ -221,9 +294,8 @@
                                        FontSize="14" 
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
-                                       FontFamily="Tahoma">
-                                Инструмент «Отрезок обычный»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Отрезок обычный»"/>
 
                             <TextBlock VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left" 
@@ -245,12 +317,12 @@
                     </Image.ToolTip>
                 </Image>
 
-
                 <Image x:Name="BresenhamLineIcon" 
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamLine.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
 
                     <Image.ToolTip>
 
@@ -265,9 +337,8 @@
                                        FontSize="14"
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
-                                       FontFamily="Tahoma">
-                                Инструмент «Отрезок Брезенхэма»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Отрезок Брезенхэма»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left" 
@@ -293,7 +364,8 @@
                        Width="32"
                        Height="32" 
                        Source="../Images/XiaolinWuLine.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
 
                     <Image.ToolTip>
 
@@ -309,9 +381,8 @@
                                        FontSize="14" 
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
-                                       FontFamily="Tahoma">
-                                Инструмент «Отрезок ВУ»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Отрезок ВУ»"/>
 
                             <TextBlock VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left" 
@@ -332,6 +403,81 @@
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
+
+                <Popup Name="EllipsesPopup" 
+                       StaysOpen="False" 
+                       Placement="Right"
+                       HorizontalOffset="39"
+                       VerticalOffset="-38"
+                       PopupAnimation="None"
+                       AllowsTransparency="True">
+
+                    <ListBox x:Name="EllipsesPicker" 
+                             Background="#FF3C3C3C">
+
+                        <StackPanel x:Name="ShapeEllipsePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/ShapeEllipse.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Эллипс обычный»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="BresenhamEllipsePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/BresenhamEllipse.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Эллипс Брезенхэма»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="ShapeCirclePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/ShapeCircle.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Окружность обычная»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="BresenhamCirclePanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/BresenhamCircle.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Окружность Брезенхэма»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                    </ListBox>
+
+                </Popup>
 
                 <Image x:Name="ShapeEllipseIcon" 
                        Width="32" 
@@ -359,9 +505,8 @@
                                        FontSize="14"
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
-                                       FontFamily="Tahoma">
-                                Инструмент «Эллипс обычный»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Эллипс обычный»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left"
@@ -387,7 +532,8 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamEllipse.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
 
                     <Image.ToolTip>
 
@@ -402,9 +548,8 @@
                                        FontSize="14" 
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
-                                       FontFamily="Tahoma">
-                                Инструмент «Эллипс Брезенхэма»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Эллипс Брезенхэма»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left" 
@@ -431,7 +576,8 @@
                        Width="32"
                        Height="32" 
                        Source="../Images/ShapeCircle.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
 
                     <Image.ToolTip>
 
@@ -446,9 +592,8 @@
                                        FontSize="14" 
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left" 
-                                       FontFamily="Tahoma">
-                                Инструмент «Окружность обычная»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Окружность обычная»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left"
@@ -466,7 +611,8 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/BresenhamCircle.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
 
                     <Image.ToolTip>
 
@@ -481,9 +627,8 @@
                                        FontSize="14"
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
-                                       FontFamily="Tahoma">
-                                Инструмент «Окружность Брезенхэма»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Окружность Брезенхэма»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left"
@@ -496,6 +641,51 @@
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
+
+                <Popup Name="FillPopup" 
+                       StaysOpen="False" 
+                       Placement="Right"
+                       HorizontalOffset="39"
+                       VerticalOffset="-38"
+                       PopupAnimation="None"
+                       AllowsTransparency="True">
+
+                    <ListBox x:Name="FillPicker" 
+                             Background="#FF3C3C3C">
+
+                        <StackPanel x:Name="FillPanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/Fill.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Заливка»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="ByLineFillPanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/ByLineFill.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Построчная заливка»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                    </ListBox>
+
+                </Popup>
 
                 <Image x:Name="FillIcon"
                        Width="32" 
@@ -516,9 +706,8 @@
                                        FontSize="14"
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
-                                       FontFamily="Tahoma">
-                                Инструмент «Заливка»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Заливка»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left"
@@ -535,7 +724,8 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/ByLineFill.png"
-                       ToolTipService.ShowDuration="60000">
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
 
                     <Image.ToolTip>
 
@@ -550,9 +740,8 @@
                                        FontSize="14"
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
-                                       FontFamily="Tahoma">
-                                Инструмент «Построчная заливка»
-                            </TextBlock>
+                                       FontFamily="Tahoma"
+                                       Text="Инструмент «Построчная заливка»"/>
 
                             <TextBlock VerticalAlignment="Bottom" 
                                        HorizontalAlignment="Left"
@@ -724,18 +913,5 @@
                               HeaderForeground="White" 
                               ToolTip="Палитра" />
         </StackPanel>
-
-        <Popup Name="About" 
-               StaysOpen="False" 
-               Placement="MousePoint"
-               HorizontalOffset="30"
-               VerticalOffset="30"
-               PopupAnimation="Scroll"
-               AllowsTransparency="True">
-
-            <Grid Width="750">
-                <Image Source="../Images/About.png" />
-            </Grid>
-        </Popup>
     </Grid>
 </Window>
