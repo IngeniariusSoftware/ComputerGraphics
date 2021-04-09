@@ -73,7 +73,7 @@
                     FontSize="17" />
 
             <Label x:Name="VersionLabel"
-                   Content="ver. 2021.04.01" 
+                   Content="ver. 2021.04.09" 
                    HorizontalAlignment="Left" 
                    Margin="48,2,0,0" 
                    VerticalAlignment="Center" Foreground="White"/>
@@ -569,7 +569,36 @@
                        Width="32" 
                        Height="32"
                        Source="../Images/VisiblityWindow.png"
-                       ToolTipService.ShowDuration="60000"/>
+                       ToolTipService.ShowDuration="60000">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Окно видимости»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Позволяет просматривать отрезки в разных<LineBreak/>
+                                режимах в области видимости<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
 
 
                 <Image x:Name="ShapeEraserIcon"
