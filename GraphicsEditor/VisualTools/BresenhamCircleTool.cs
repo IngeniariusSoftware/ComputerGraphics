@@ -39,14 +39,14 @@
             int radiusError = 1 - x;
             while (x >= y)
             {
-                WritePixel(bitmap, color, x + centerX, y + centerY);
-                WritePixel(bitmap, color, y + centerX, x + centerY);
-                WritePixel(bitmap, color, -x + centerX, y + centerY);
-                WritePixel(bitmap, color, -y + centerX, x + centerY);
-                WritePixel(bitmap, color, -x + centerX, -y + centerY);
-                WritePixel(bitmap, color, -y + centerX, -x + centerY);
-                WritePixel(bitmap, color, x + centerX, -y + centerY);
-                WritePixel(bitmap, color, y + centerX, -x + centerY);
+                WritePixelColor(bitmap, color, x + centerX, y + centerY);
+                WritePixelColor(bitmap, color, y + centerX, x + centerY);
+                WritePixelColor(bitmap, color, -x + centerX, y + centerY);
+                WritePixelColor(bitmap, color, -y + centerX, x + centerY);
+                WritePixelColor(bitmap, color, -x + centerX, -y + centerY);
+                WritePixelColor(bitmap, color, -y + centerX, -x + centerY);
+                WritePixelColor(bitmap, color, x + centerX, -y + centerY);
+                WritePixelColor(bitmap, color, y + centerX, -x + centerY);
 
                 y++;
                 if (radiusError < 0)

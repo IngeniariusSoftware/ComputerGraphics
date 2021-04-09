@@ -9,6 +9,10 @@
 
         int PixelHeight { get; set; }
 
+        int MaxPixelWidth { get; }
+
+        int MaxPixelHeight { get; }
+
         IntPtr BackBuffer { get; }
 
         int BackBufferStride { get; }

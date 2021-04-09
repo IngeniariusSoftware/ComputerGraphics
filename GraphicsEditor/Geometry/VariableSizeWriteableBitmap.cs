@@ -62,6 +62,10 @@
             }
         }
 
+        public int MaxPixelWidth => Bitmap.PixelWidth;
+
+        public int MaxPixelHeight => Bitmap.PixelHeight;
+
         public IntPtr BackBuffer => Bitmap.BackBuffer;
 
         public int BackBufferStride => Bitmap.BackBufferStride;

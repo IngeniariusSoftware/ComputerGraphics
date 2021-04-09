@@ -93,5 +93,23 @@ namespace Tests
             var result = MathGeometry.IntersectionPoints(lineSegment, rectangle);
             Assert.AreEqual(2, result.Count);
         }
+
+        [Test] public void OnePointLineSegment()
+        {
+            var lineSegment = new LineSegment(new Point(-5, 5), new Point(-5, -5));
+            var rectangle = new Rectangle(new Point(0, 0), new Point(10, 10));
+            var result = MathGeometry.LineSegmentClamp(lineSegment, rectangle);
+            Assert.NotNull(result);
+            Assert.AreEqual(new Point(0, 0), result.Start);
+            Assert.AreEqual(new Point(0, 0), result.End);
+        }
+
+        [Test] public void NullLineSegment()
+        {
+            var lineSegment = new LineSegment(new Point(-5, 5), new Point(-5, -5));
+            var rectangle = new Rectangle(new Point(1, 1), new Point(10, 10));
+            var result = MathGeometry.LineSegmentClamp(lineSegment, rectangle);
+            Assert.Null(result);
+        }
     }
 }

@@ -19,7 +19,38 @@
 
         protected bool IsEraseMode { get; set; }
 
-        protected void WritePixel(IWriteableBitmap bitmap, Color color, int x, int y, bool isVertical = false)
+        public Color ReadPixelColor(IWriteableBitmap bitmap, int x, int y)
+        {
+            byte a, r, g, b;
+            unsafe
+            {
+                IntPtr pBackBuffer = bitmap.BackBuffer;
+                pBackBuffer += y * bitmap.BackBufferStride;
+                pBackBuffer += x * 4;
+                b = *((byte*)pBackBuffer);
+                pBackBuffer += 1;
+                g = *((byte*)pBackBuffer);
+                pBackBuffer += 1;
+                r = *((byte*)pBackBuffer);
+                pBackBuffer += 1;
+                a = *((byte*)pBackBuffer);
+            }
+
+            return Color.FromArgb(a, r, g, b);
+        }
+
+        public int ReadPixel(IWriteableBitmap bitmap, int x, int y)
+        {
+            unsafe
+            {
+                IntPtr pBackBuffer = bitmap.BackBuffer;
+                pBackBuffer += y * bitmap.BackBufferStride;
+                pBackBuffer += x * 4;
+                return *((int*)pBackBuffer);
+            }
+        }
+
+        public void WritePixelColor(IWriteableBitmap bitmap, Color color, int x, int y, bool isVertical = false)
         {
             if (isVertical) (x, y) = (y, x);
             if (IsEraseMode)
@@ -45,7 +76,22 @@
             bitmap.Unlock();
         }
 
-        protected void ErasePixel(IWriteableBitmap bitmap, int y, int x)
+        public void WritePixel(IWriteableBitmap bitmap, int color, int x, int y)
+        {
+            bitmap.Lock();
+            unsafe
+            {
+                IntPtr pBackBuffer = bitmap.BackBuffer;
+                pBackBuffer += y * bitmap.BackBufferStride;
+                pBackBuffer += x * 4;
+                *((int*)pBackBuffer) = color;
+            }
+
+            bitmap.AddDirtyRect(new Int32Rect(x, y, 1, 1));
+            bitmap.Unlock();
+        }
+
+        public void ErasePixel(IWriteableBitmap bitmap, int y, int x)
         {
             bitmap.Lock();
             unsafe
