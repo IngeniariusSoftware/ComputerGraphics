@@ -31,8 +31,8 @@
             int y1 = (int)startPoint.Y;
             int x2 = (int)currentPoint.X;
             int y2 = (int)currentPoint.Y;
-            WritePixel(bitmap, color, x1, y1, isVertical);
-            WritePixel(bitmap, color, x2, y2, isVertical);
+            WritePixelColor(bitmap, color, x1, y1, isVertical);
+            WritePixelColor(bitmap, color, x2, y2, isVertical);
             double dx = x2 - x1;
             double dy = y2 - y1;
             double gradient = dy / dx;
@@ -41,9 +41,9 @@
             {
                 int intY = (int)y;
                 color.A = (byte)(255 * (1 - (y - intY)));
-                WritePixel(bitmap, color, x, intY, isVertical);
+                WritePixelColor(bitmap, color, x, intY, isVertical);
                 color.A = (byte)(255 * (y - intY));
-                WritePixel(bitmap, color, x, intY + 1, isVertical);
+                WritePixelColor(bitmap, color, x, intY + 1, isVertical);
                 y += gradient;
             }
         }

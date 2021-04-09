@@ -30,10 +30,10 @@
 
         private void ReflectWritePixels(IWriteableBitmap bitmap, int centerX, int centerY, int x, int y, Color color)
         {
-            WritePixel(bitmap, color, centerX + x, centerY + y);
-            WritePixel(bitmap, color, centerX + x, centerY - y);
-            WritePixel(bitmap, color, centerX - x, centerY - y);
-            WritePixel(bitmap, color, centerX - x, centerY + y);
+            WritePixelColor(bitmap, color, centerX + x, centerY + y);
+            WritePixelColor(bitmap, color, centerX + x, centerY - y);
+            WritePixelColor(bitmap, color, centerX - x, centerY - y);
+            WritePixelColor(bitmap, color, centerX - x, centerY + y);
         }
 
         private void BresenhamEllipse(IWriteableBitmap bitmap, Point center, int a, int b, Color color)
@@ -66,8 +66,8 @@
             while (x < a)
             {
                 x++;
-                WritePixel(bitmap, color, centerX + x, centerY);
-                WritePixel(bitmap, color, centerX - x, centerY);
+                WritePixelColor(bitmap, color, centerX + x, centerY);
+                WritePixelColor(bitmap, color, centerX - x, centerY);
             }
         }
     }

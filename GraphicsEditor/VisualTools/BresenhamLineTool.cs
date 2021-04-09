@@ -31,7 +31,7 @@
             int y = (int)startPoint.Y;
             for (int x = (int)startPoint.X; x <= currentPoint.X; x++)
             {
-                WritePixel(bitmap, color, x, y, isVertical);
+                WritePixelColor(bitmap, color, x, y, isVertical);
                 error -= dy;
 
                 if (error >= 0) continue;

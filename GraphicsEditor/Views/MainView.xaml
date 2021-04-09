@@ -5,8 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xamlAnimatedGif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
-        xmlns:uiElements="clr-namespace:GraphicsEditor.UIElements"
-        xmlns:graphicsEditor="clr-namespace:GraphicsEditor"
         mc:Ignorable="d"
         Title="GraphicsEditor" 
         Height="680"
@@ -499,6 +497,74 @@
                     </Image.ToolTip>
                 </Image>
 
+                <Image x:Name="FillIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/Fill.png"
+                       ToolTipService.ShowDuration="60000">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Заливка»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Попиксельная заливка выбранной области<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
+                <Image x:Name="ByLineFillIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/ByLineFill.png"
+                       ToolTipService.ShowDuration="60000">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Построчная заливка»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Построчная заливка заданной области<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
                 <Image x:Name="VisibilityWindowIcon"
                        Width="32" 
                        Height="32"
@@ -506,10 +572,44 @@
                        ToolTipService.ShowDuration="60000"/>
 
 
-                <Image x:Name="EraserIcon"
+                <Image x:Name="ShapeEraserIcon"
                        Width="32" 
                        Height="32"
                        Source="../Images/Eraser.png"
+                       ToolTipService.ShowDuration="60000">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/Eraser.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Векторный ластик»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Удаляет выбранную векторную фигуры<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
+                <Image x:Name="RasterEraserIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/RasterEraser.png"
                        ToolTipService.ShowDuration="60000">
 
                     <Image.ToolTip>
@@ -526,7 +626,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент «Ластик»
+                                Инструмент «Растровый ластик»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -534,7 +634,7 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Полностью очищает поле для рисования<LineBreak/>
+                                Очищает растровое поле для рисования<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>

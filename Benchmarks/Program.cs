@@ -39,52 +39,69 @@
 
         public XiaolinWuLineTool XiaolinWuLineTool;
 
+        public RasterTool RasterTool;
+
+        public IWriteableBitmap Background;
+
         public int Height = 3000;
 
         public int Width = 3000;
 
         public DrawingBenchmark()
         {
-            var background = new WriteableBitmap(
+            var back = new WriteableBitmap(
                 Width,
                 Height,
                 96,
                 96,
                 PixelFormats.Bgra32,
                 null);
-            IWriteableBitmap backBitmap = new VariableSizeWriteableBitmap(background, Width, Height);
+            Background = new VariableSizeWriteableBitmap(back, Width, Height);
             IWriteableBitmap foreBitmap =
-                new VariableSizeWriteableBitmap(new WriteableBitmap(background), Width, Height);
-            BresenhamLineTool = new BresenhamLineTool(backBitmap, foreBitmap);
+                new VariableSizeWriteableBitmap(new WriteableBitmap(back), Width, Height);
+            BresenhamLineTool = new BresenhamLineTool(Background, foreBitmap);
             BresenhamLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            BresenhamEllipseTool = new BresenhamEllipseTool(backBitmap, foreBitmap);
+            BresenhamEllipseTool = new BresenhamEllipseTool(Background, foreBitmap);
             BresenhamEllipseTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            XiaolinWuLineTool = new XiaolinWuLineTool(backBitmap, foreBitmap);
+            XiaolinWuLineTool = new XiaolinWuLineTool(Background, foreBitmap);
             XiaolinWuLineTool.StartDrawing(new Point(0, 0), Color.FromRgb(0, 0, 0));
-            BresenhamCircleTool = new BresenhamCircleTool(backBitmap, foreBitmap);
+            BresenhamCircleTool = new BresenhamCircleTool(Background, foreBitmap);
             BresenhamCircleTool.StartDrawing(new Point((Width / 2) - 10, (Height / 2) - 10), Color.FromRgb(0, 0, 0));
+            RasterTool = new RasterTool(Background, foreBitmap);
+        }
+        
+        [Benchmark] public int ReadPixel()
+        {
+            RasterTool.ReadPixel(Background, Width / 2, Height / 2);
+            return 0;
         }
 
-        [Benchmark] public int BresenhamCircleToolDrawing()
+        [Benchmark] public int ReadPixelColor()
+        {
+            RasterTool.ReadPixelColor(Background, Width / 2, Height / 2);
+            return 0;
+        }
+
+        /*[Benchmark]*/ public int BresenhamCircleToolDrawing()
         {
             BresenhamCircleTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
             return 0;
         }
 
-        [Benchmark] public int BresenhamLineToolDrawing()
+        /*[Benchmark]*/ public int BresenhamLineToolDrawing()
         {
             BresenhamLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
             return 0;
         }
 
-        [Benchmark] public int BresenhamEllipseToolDrawing()
+        /*[Benchmark] */public int BresenhamEllipseToolDrawing()
         {
             BresenhamEllipseTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
             return 0;
         }
 
 
-        [Benchmark] public int XiaolinWuLineToolDrawing()
+        /*[Benchmark]*/ public int XiaolinWuLineToolDrawing()
         {
             XiaolinWuLineTool.TryDrawing(new Point(Width - 10, Height - 10), Color.FromRgb(0, 0, 0));
             return 0;

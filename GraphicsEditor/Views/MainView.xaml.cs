@@ -138,10 +138,13 @@
             ShapeEllipseIcon.DataContext = new ShapeEllipseTool(vectorBackground, vectorForeground);
             MagnifierIcon.DataContext = new MagnifierTool();
             ShapeCircleIcon.DataContext = new ShapeCircleTool(vectorBackground, vectorForeground);
-            EraserIcon.DataContext = new EraserTool(VectorBackground, BackgroundBitmap, ForegroundBitmap, buffer);
+            RasterEraserIcon.DataContext = new RasterEraserTool(BackgroundBitmap, buffer);
+            ShapeEraserIcon.DataContext = new ShapeEraserTool(VectorBackground);
             MovingIcon.DataContext = new MovingTool(VectorBackground);
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
             BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackgroundBitmap, ForegroundBitmap);
+            FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap);
+            ByLineFillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap);
             var resizerController = new ResizerController(ResizerIcon, VisibleArea);
             var movingController = new MovingController(VisibleArea);
             VisibilityWindowIcon.DataContext =
