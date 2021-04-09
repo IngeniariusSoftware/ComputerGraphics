@@ -19,8 +19,8 @@
         public override void EndDrawing(Point currentPoint, Color color)
         {
             base.EndDrawing(currentPoint, color);
-            var size = new Int32Rect(0, 0, Background.PixelWidth, Background.PixelHeight);
-            Background.WritePixels(size, BackgroundBuffer, 4 * Background.PixelWidth, 0);
+            var size = new Int32Rect(0, 0, Background.PixelWidth + 1, Background.PixelHeight + 1);
+            Background.WritePixels(size, BackgroundBuffer, 4 * (Background.PixelWidth + 1), 0);
         }
     }
 }

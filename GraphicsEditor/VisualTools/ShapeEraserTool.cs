@@ -29,16 +29,16 @@
             IsActive = false;
         }
 
-        private void OnPreviewMouseLeftButtonDown(object sender, MouseEventArgs args)
+        private void OnPreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
         {
-            if (args.Source is not Shape shape) return;
+            if (e.Source is not Shape shape) return;
             if (!IsActive) return;
             Panel.Children.Remove(shape);
         }
 
-        private void OnPreviewMouseRightButtonDown(object sender, MouseEventArgs args)
+        private void OnPreviewMouseRightButtonDown(object sender, MouseEventArgs e)
         {
-            if (args.Source is not Shape shape) return;
+            if (e.Source is not Shape shape) return;
             if (!IsActive) return;
             Panel.Children.Clear();
         }

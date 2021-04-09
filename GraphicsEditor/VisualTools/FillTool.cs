@@ -17,10 +17,10 @@
 
         private int _end;
 
-        public FillTool(IWriteableBitmap background, IWriteableBitmap foreground)
+        public FillTool(IWriteableBitmap background, IWriteableBitmap foreground, int[] coordinatesBuffer)
             : base(background, foreground)
         {
-            _coordinates = new int[((background.MaxPixelHeight * background.MaxPixelWidth) + 1) * 8];
+            _coordinates = coordinatesBuffer;
         }
 
         public override void StartDrawing(Point startPoint, Color color)

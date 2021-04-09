@@ -126,12 +126,16 @@
                 null);
             RasterBackground.Source = background;
             var buffer = new byte[4 * (int)RasterBackground.Source.Width * (int)RasterBackground.Source.Height];
+            var coordinatesBuffer =
+                new int[(((int)RasterBackground.Source.Width * (int)RasterBackground.Source.Height) + 1) * 8];
             var foreground = new WriteableBitmap((BitmapSource)RasterBackground.Source);
             RasterForeground.Source = foreground;
             BackgroundBitmap.Bitmap = background;
             ForegroundBitmap.Bitmap = foreground;
-            IPanel vectorBackground = new ExtendedPanel(VectorBackground, new ExtendedUIElementCollection(VectorBackground.Children));
-            IPanel vectorForeground = new ExtendedPanel(VectorForeground, new ExtendedUIElementCollection(VectorForeground.Children));
+            IPanel vectorBackground = new ExtendedPanel(VectorBackground,
+                new ExtendedUIElementCollection(VectorBackground.Children));
+            IPanel vectorForeground = new ExtendedPanel(VectorForeground,
+                new ExtendedUIElementCollection(VectorForeground.Children));
             ShapeLineIcon.DataContext = new ShapeLineTool(vectorBackground, vectorForeground);
             BresenhamLineIcon.DataContext = new BresenhamLineTool(BackgroundBitmap, ForegroundBitmap);
             XiaolinWuLineIcon.DataContext = new XiaolinWuLineTool(BackgroundBitmap, ForegroundBitmap);
@@ -143,8 +147,8 @@
             MovingIcon.DataContext = new MovingTool(VectorBackground);
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
             BresenhamEllipseIcon.DataContext = new BresenhamEllipseTool(BackgroundBitmap, ForegroundBitmap);
-            FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap);
-            ByLineFillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap);
+            FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
+            ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
             var resizerController = new ResizerController(ResizerIcon, VisibleArea);
             var movingController = new MovingController(VisibleArea);
             VisibilityWindowIcon.DataContext =
