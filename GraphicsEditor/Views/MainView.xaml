@@ -642,6 +642,41 @@
                     </Image.ToolTip>
                 </Image>
 
+                <Image x:Name="BezierIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/Bezier.png"
+                       ToolTipService.ShowDuration="60000">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Кривая Безье»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Позволяет строить кривую Безье<LineBreak/>
+                                третьего порядка<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
                 <Popup Name="FillPopup" 
                        StaysOpen="False" 
                        Placement="Right"
@@ -793,7 +828,7 @@
                 <Image x:Name="ShapeEraserIcon"
                        Width="32" 
                        Height="32"
-                       Source="../Images/Eraser.png"
+                       Source="../Images/ShapeEraser.png"
                        ToolTipService.ShowDuration="60000">
 
                     <Image.ToolTip>

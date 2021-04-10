@@ -149,6 +149,7 @@
             ShapeCirclePanel.DataContext = ShapeCircleIcon;
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
             BresenhamCirclePanel.DataContext = BresenhamCircleIcon;
+            BezierIcon.DataContext = new ShapeBezierTool(vectorBackground, vectorForeground);
             FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
             FillPanel.DataContext = FillIcon;
             ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
@@ -197,7 +198,7 @@
             if (selected.DataContext is not FrameworkElement tool) throw new Exception();
 
             tool.Visibility = Visibility.Visible;
-            SelectTool(tool);
+            SelectTool(list, tool);
             list.UnselectAll();
         }
 
@@ -210,13 +211,15 @@
             }
 
             if (e.Source is not FrameworkElement element) return;
+            if (element.GetType().Name == "PopupRoot") e.Handled = true;
             if (element.DataContext is not BaseTool) return;
             e.Handled = true;
-            SelectTool(element);
+            SelectTool(ToolPicker, element);
         }
 
-        private void SelectTool(FrameworkElement tool)
+        private void SelectTool(ListBox list, FrameworkElement tool)
         {
+            if (list != ToolPicker && tool == ToolPicker.SelectedItem) return;
             bool isToolDeselected = ToolPicker.SelectedItems.Contains(tool);
             if (isToolDeselected)
             {
@@ -286,12 +289,12 @@
 
         private void BorderGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => IsDragMode = true;
 
+        private void BorderGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => IsDragMode = false;
+
         private void BorderGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && IsDragMode) DragWindow(e);
         }
-
-        private void BorderGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => IsDragMode = false;
 
         private void DragWindow(MouseEventArgs e)
         {

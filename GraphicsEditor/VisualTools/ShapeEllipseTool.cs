@@ -40,10 +40,9 @@
             return Ellipse = new Ellipse
             {
                 Margin = new Thickness(StartPoint.X, StartPoint.Y, 0, 0),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
                 Height = 0,
                 Width = 0,
+                Fill = new SolidColorBrush(Colors.Transparent),
                 Stroke = new SolidColorBrush(color),
             };
         }

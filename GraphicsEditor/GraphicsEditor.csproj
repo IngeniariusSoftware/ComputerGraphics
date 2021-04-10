@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <None Remove="Images\About.png" />
+    <None Remove="Images\Bezier.png" />
     <None Remove="Images\BresenhamCircle.gif" />
     <None Remove="Images\BresenhamCircle.png" />
     <None Remove="Images\BresenhamEllipse.gif" />
@@ -71,6 +72,7 @@
 
   <ItemGroup>
     <Resource Include="Images\About.png" />
+    <Resource Include="Images\Bezier.png" />
     <Resource Include="Images\BresenhamCircle.gif" />
     <Resource Include="Images\BresenhamCircle.png" />
     <Resource Include="Images\BresenhamEllipse.gif" />
@@ -79,7 +81,6 @@
     <Resource Include="Images\BresenhamLine.png" />
     <Resource Include="Images\ByLineFill.png" />
     <Resource Include="Images\Eraser.gif" />
-    <Resource Include="Images\Eraser.png" />
     <Resource Include="Images\Fill.png" />
     <Resource Include="Images\FullVisibility.png" />
     <Resource Include="Images\Icon.png" />

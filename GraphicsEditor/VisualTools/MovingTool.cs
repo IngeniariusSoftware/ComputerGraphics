@@ -36,8 +36,8 @@
         {
             if (MovingShape == null) return;
             base.Drawing(currentPoint, color);
-            double left = Math.Max(currentPoint.X - Delta.X, 0);
-            double top = Math.Max(currentPoint.Y - Delta.Y, 0);
+            double left = Math.Min(Math.Max(currentPoint.X - Delta.X, 0), Panel.ActualWidth - MovingShape.ActualWidth);
+            double top = Math.Min(Math.Max(currentPoint.Y - Delta.Y, 0), Panel.ActualHeight - MovingShape.ActualHeight);
             MovingShape.Margin = new Thickness(left, top, 0, 0);
         }
 
