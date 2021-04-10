@@ -2,12 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
@@ -24,7 +21,6 @@
     {
         public MainView()
         {
-            Watcher = Stopwatch.StartNew();
             InitializeComponent();
             var controller = new MainController(this);
 
@@ -75,8 +71,6 @@
         public Color CurrentColor => ColorPicker.SelectedColor ?? Colors.White;
 
         public bool IsDragMode { get; private set; }
-
-        private Stopwatch Watcher { get; }
 
         private VariableSizeWriteableBitmap BackgroundBitmap { get; }
 
@@ -187,9 +181,6 @@
             FillPicker.DataContext = fillers;
             FillPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
             FillPicker.SelectionChanged += (_, _) => FillPopup.IsOpen = false;
-
-            Watcher.Stop();
-            // Thread.Sleep((int)Math.Max(3000 - Watcher.ElapsedMilliseconds, 0));
         }
 
         private void NestedToolPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
