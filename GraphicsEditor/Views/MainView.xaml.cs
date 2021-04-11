@@ -94,9 +94,9 @@
             }
         }
 
-        private void LeftShift_Down(object sender, KeyEventArgs e)
+        private void LeftShift_Down(object sender, KeyEventArgs args)
         {
-            if (e.Key != Key.LeftShift) return;
+            if (args.Key != Key.LeftShift) return;
             ShiftModeLineGif.Visibility = Visibility.Visible;
             ShiftModeEllipseGif.Visibility = Visibility.Visible;
             ShapeLineGif.Visibility = Visibility.Collapsed;
@@ -104,9 +104,9 @@
             AlternativeModeSwitched(this, true);
         }
 
-        private void LeftShift_Up(object sender, KeyEventArgs e)
+        private void LeftShift_Up(object sender, KeyEventArgs args)
         {
-            if (e.Key != Key.LeftShift) return;
+            if (args.Key != Key.LeftShift) return;
             ShiftModeLineGif.Visibility = Visibility.Collapsed;
             ShiftModeEllipseGif.Visibility = Visibility.Collapsed;
             ShapeLineGif.Visibility = Visibility.Visible;
@@ -114,7 +114,7 @@
             AlternativeModeSwitched(this, false);
         }
 
-        private void Windows_Loaded(object sender, RoutedEventArgs e)
+        private void Windows_Loaded(object sender, RoutedEventArgs args)
         {
             var background = new WriteableBitmap(
                 (int)SystemParameters.PrimaryScreenWidth,
@@ -155,11 +155,11 @@
             ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
             ByLineFillPanel.DataContext = ByLineFillIcon;
             RasterEraserIcon.DataContext = new RasterEraserTool(BackgroundBitmap, buffer);
-            ShapeEraserIcon.DataContext = new ShapeEraserTool(VectorBackground);
+            ShapeEraserIcon.DataContext = new ShapeEraserTool(vectorBackground);
             MovingIcon.DataContext = new MovingTool(VectorBackground);
             MagnifierIcon.DataContext = new MagnifierTool();
             var resizerController = new ResizerController(ResizerIcon, VisibleArea);
-            var movingController = new MovingController(VisibleArea);
+            var movingController = new MovingController(VisibleArea, 20);
             VisibilityWindowIcon.DataContext =
                 new VisibilityWindowTool(VisibleArea, vectorBackground, ShapesWindow, VisibilityIcon, movingController,
                     resizerController);
@@ -184,7 +184,7 @@
             FillPicker.SelectionChanged += (_, _) => FillPopup.IsOpen = false;
         }
 
-        private void NestedToolPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NestedToolPicker_SelectionChanged(object sender, SelectionChangedEventArgs args)
         {
             if (sender is not ListBox list) return;
             if (list.SelectedItem == null) return;
@@ -202,18 +202,18 @@
             list.UnselectAll();
         }
 
-        private void ToolPicker_PreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
+        private void ToolPicker_PreviewMouseLeftButtonDown(object sender, MouseEventArgs args)
         {
-            if (e.Source == sender)
+            if (args.Source == sender)
             {
-                e.Handled = true;
+                args.Handled = true;
                 return;
             }
 
-            if (e.Source is not FrameworkElement element) return;
-            if (element.GetType().Name == "PopupRoot") e.Handled = true;
+            if (args.Source is not FrameworkElement element) return;
+            if (element.GetType().Name == "PopupRoot") args.Handled = true;
             if (element.DataContext is not BaseTool) return;
-            e.Handled = true;
+            args.Handled = true;
             SelectTool(ToolPicker, element);
         }
 
@@ -262,45 +262,45 @@
             }
         }
 
-        private void DrawCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DrawCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs args)
         {
-            if (e.Handled) return;
-            StartDrawing(this, e.GetPosition(DrawCanvas));
+            if (args.Handled) return;
+            StartDrawing(this, args.GetPosition(DrawCanvas));
             Mouse.Capture(DrawCanvas);
         }
 
-        private void DrawCanvas_MouseMove(object sender, MouseEventArgs e)
+        private void DrawCanvas_MouseMove(object sender, MouseEventArgs args)
         {
-            if (e.Handled) return;
-            Point mousePoint = e.GetPosition(DrawCanvas);
+            if (args.Handled) return;
+            Point mousePoint = args.GetPosition(DrawCanvas);
             Information.Text = $"x: {(int)mousePoint.X}; y: {(int)mousePoint.Y}";
 
-            if (e.LeftButton != MouseButtonState.Pressed) return;
+            if (args.LeftButton != MouseButtonState.Pressed) return;
             Drawing(this, mousePoint);
         }
 
-        private void DrawCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void DrawCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs args)
         {
-            if (e.Handled) return;
-            EndDrawing(this, e.GetPosition(DrawCanvas));
+            if (args.Handled) return;
+            EndDrawing(this, args.GetPosition(DrawCanvas));
             AboutDrawing.Visibility = Visibility.Collapsed;
             Mouse.Capture(null);
         }
 
-        private void BorderGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => IsDragMode = true;
+        private void BorderGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs args) => IsDragMode = true;
 
-        private void BorderGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => IsDragMode = false;
+        private void BorderGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs args) => IsDragMode = false;
 
-        private void BorderGrid_MouseMove(object sender, MouseEventArgs e)
+        private void BorderGrid_MouseMove(object sender, MouseEventArgs args)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && IsDragMode) DragWindow(e);
+            if (args.LeftButton == MouseButtonState.Pressed && IsDragMode) DragWindow(args);
         }
 
-        private void DragWindow(MouseEventArgs e)
+        private void DragWindow(MouseEventArgs args)
         {
             if (WindowState == WindowState.Maximized)
             {
-                Point mousePosition = PointToScreen(e.GetPosition(this));
+                Point mousePosition = PointToScreen(args.GetPosition(this));
                 WindowState = WindowState.Normal;
                 Left = mousePosition.X - (Width / 2);
                 Top = mousePosition.Y;
@@ -309,43 +309,43 @@
             DragMove();
         }
 
-        private void DrawCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void DrawCanvas_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             int margin = 20;
 
-            if (VisibleArea.Margin.Left + VisibleArea.ActualWidth + margin > e.NewSize.Width)
+            if (VisibleArea.Margin.Left + VisibleArea.ActualWidth + margin > args.NewSize.Width)
             {
                 if (VisibleArea.Margin.Left > margin)
                 {
                     Thickness tmp = VisibleArea.Margin;
-                    tmp.Left = Math.Max(e.NewSize.Width - VisibleArea.ActualWidth - margin, margin);
+                    tmp.Left = Math.Max(args.NewSize.Width - VisibleArea.ActualWidth - margin, margin);
                     VisibleArea.Margin = tmp;
                 }
                 else
                 {
-                    VisibleArea.Width = Math.Max(e.NewSize.Width - (margin * 2), margin);
+                    VisibleArea.Width = Math.Max(args.NewSize.Width - (margin * 2), margin);
                 }
             }
 
-            if (VisibleArea.Margin.Top + VisibleArea.ActualHeight + margin > e.NewSize.Height)
+            if (VisibleArea.Margin.Top + VisibleArea.ActualHeight + margin > args.NewSize.Height)
             {
                 if (VisibleArea.Margin.Top > margin)
                 {
                     Thickness tmp = VisibleArea.Margin;
-                    tmp.Top = Math.Max(e.NewSize.Height - VisibleArea.ActualHeight - margin, margin);
+                    tmp.Top = Math.Max(args.NewSize.Height - VisibleArea.ActualHeight - margin, margin);
                     VisibleArea.Margin = tmp;
                 }
                 else
                 {
-                    VisibleArea.Height = Math.Max(e.NewSize.Height - (margin * 2), margin);
+                    VisibleArea.Height = Math.Max(args.NewSize.Height - (margin * 2), margin);
                 }
             }
 
-            DrawAreaSizeChanged(this, e.NewSize);
-            BackgroundBitmap.PixelWidth = (int)e.NewSize.Width;
-            BackgroundBitmap.PixelHeight = (int)e.NewSize.Height;
-            ForegroundBitmap.PixelWidth = (int)e.NewSize.Width;
-            ForegroundBitmap.PixelHeight = (int)e.NewSize.Height;
+            DrawAreaSizeChanged(this, args.NewSize);
+            BackgroundBitmap.PixelWidth = (int)args.NewSize.Width;
+            BackgroundBitmap.PixelHeight = (int)args.NewSize.Height;
+            ForegroundBitmap.PixelWidth = (int)args.NewSize.Width;
+            ForegroundBitmap.PixelHeight = (int)args.NewSize.Height;
         }
 
         private void Resize() =>

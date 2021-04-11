@@ -1,19 +1,19 @@
 ﻿namespace GraphicsEditor.VisualTools
 {
-    using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Shapes;
+    using UIElements;
 
     public class ShapeEraserTool : BaseTool
     {
-        public ShapeEraserTool(Panel panel)
+        public ShapeEraserTool(IPanel panel)
         {
             Panel = panel;
             Panel.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
             Panel.PreviewMouseRightButtonDown += OnPreviewMouseRightButtonDown;
         }
 
-        protected Panel Panel { get; }
+        protected IPanel Panel { get; }
 
         private bool IsActive { get; set; }
 
@@ -29,16 +29,16 @@
             IsActive = false;
         }
 
-        private void OnPreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
+        private void OnPreviewMouseLeftButtonDown(object sender, MouseEventArgs args)
         {
-            if (e.Source is not Shape shape) return;
+            if (args.Source is not Shape shape) return;
             if (!IsActive) return;
             Panel.Children.Remove(shape);
         }
 
-        private void OnPreviewMouseRightButtonDown(object sender, MouseEventArgs e)
+        private void OnPreviewMouseRightButtonDown(object sender, MouseEventArgs args)
         {
-            if (e.Source is not Shape shape) return;
+            if (args.Source is not Shape shape) return;
             if (!IsActive) return;
             Panel.Children.Clear();
         }

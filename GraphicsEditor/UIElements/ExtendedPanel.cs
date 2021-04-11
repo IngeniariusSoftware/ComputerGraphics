@@ -2,6 +2,7 @@
 {
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Input;
 
     public class ExtendedPanel : IPanel
     {
@@ -9,7 +10,13 @@
         {
             Canvas = canvas;
             Children = children;
+            Canvas.PreviewMouseLeftButtonDown += (sender, args) => PreviewMouseLeftButtonDown(sender, args);
+            Canvas.PreviewMouseRightButtonDown += (sender, args) => PreviewMouseRightButtonDown(sender, args);
         }
+
+        public event MouseButtonEventHandler PreviewMouseLeftButtonDown = delegate { };
+
+        public event MouseButtonEventHandler PreviewMouseRightButtonDown = delegate { };
 
         public IUIElementCollection Children { get; }
 

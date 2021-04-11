@@ -29,20 +29,20 @@
 
         private Panel Parent { get; }
 
-        private void OnMouseEnter(object sender, MouseEventArgs e)
+        private void OnMouseEnter(object sender, MouseEventArgs args)
         {
             ResizeTarget.Cursor = Cursors.SizeNWSE;
         }
 
-        private void OnMouseLeftButtonDown(object sender, MouseEventArgs e)
+        private void OnMouseLeftButtonDown(object sender, MouseEventArgs args)
         {
             IsResizeMode = true;
             Mouse.Capture(ResizerElement);
             ResizeTarget.Cursor = Cursors.SizeNWSE;
-            e.Handled = true;
+            args.Handled = true;
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        private void OnMouseMove(object sender, MouseEventArgs args)
         {
             if (!IsResizeMode) return;
             Point mouse = Mouse.GetPosition(ResizeTarget);
@@ -50,19 +50,19 @@
             ResizeTarget.Margin = new Thickness(ResizeTarget.Margin.Left, ResizeTarget.Margin.Top, 0, 0);
             ResizeTarget.Width = Math.Clamp(mouse.X, margin, Parent.ActualWidth - ResizeTarget.Margin.Left - margin);
             ResizeTarget.Height = Math.Clamp(mouse.Y, margin, Parent.ActualHeight - ResizeTarget.Margin.Top - margin);
-            e.Handled = true;
+            args.Handled = true;
             MarginChanged(ResizeTarget, ResizeTarget.Margin);
         }
 
-        private void OnMouseLeftButtonUp(object sender, MouseEventArgs e)
+        private void OnMouseLeftButtonUp(object sender, MouseEventArgs args)
         {
             IsResizeMode = false;
             Mouse.Capture(null);
             ResizeTarget.Cursor = Cursors.Arrow;
-            e.Handled = true;
+            args.Handled = true;
         }
 
-        private void OnMouseLeave(object sender, MouseEventArgs e)
+        private void OnMouseLeave(object sender, MouseEventArgs args)
         {
             if (IsResizeMode) return;
             ResizeTarget.Cursor = Cursors.Arrow;

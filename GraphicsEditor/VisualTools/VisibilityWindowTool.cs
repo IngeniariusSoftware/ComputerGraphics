@@ -36,14 +36,14 @@
             Window = window;
             ShapesContainer = shapesContainer;
             ShapesWindow = shapesWindow;
-            movingController.MarginChanged += OnVisibilityWindowMarginChanged;
-            resizerController.MarginChanged += OnVisibilityWindowMarginChanged;
+            movingController.MarginChanged += (_, _) => UpdateLinesView();
+            resizerController.MarginChanged += (_, _) => UpdateLinesView();
             VisibilityIcon = visibilityIcon;
             VisibilityIcon.PreviewMouseLeftButtonDown += OnLeftMouseDown;
             VisibilityIcon.MouseEnter += (_, _) => VisibilityIcon.Cursor = Cursors.Hand;
             VisibilityIcon.MouseLeave += (_, _) => VisibilityIcon.Cursor = Cursors.Arrow;
             VisibilityIcon.DataContext = VisibilityModes.Full;
-            Window.SizeChanged += OnVisibilityWindowSizeChanged;
+            Window.SizeChanged += (_, _) => UpdateLinesView();
             UpdateButtonImage();
             Lines = new List<Line>();
         }
@@ -93,7 +93,7 @@
             Lines.Clear();
         }
 
-        private void OnLeftMouseDown(object sender, MouseEventArgs e)
+        private void OnLeftMouseDown(object sender, MouseEventArgs args)
         {
             var mode = (VisibilityModes)VisibilityIcon.DataContext switch
             {
@@ -105,7 +105,7 @@
 
             VisibilityIcon.DataContext = mode;
             VisibilityMode = mode;
-            e.Handled = true;
+            args.Handled = true;
         }
 
         private void UpdateButtonImage()
@@ -121,23 +121,19 @@
             VisibilityIcon.Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}Visibility.png"));
         }
 
-        private void OnChildAdded(object sender, UIElement e)
+        private void OnChildAdded(object sender, UIElement element)
         {
-            if (e is not Line line) return;
+            if (element is not Line line) return;
             Lines.Add(line);
             UpdateLinesView();
         }
 
-        private void OnChildRemoved(object sender, UIElement e)
+        private void OnChildRemoved(object sender, UIElement element)
         {
-            if (e is not Line line) return;
+            if (element is not Line line) return;
             Lines.Remove(line);
             UpdateLinesView();
         }
-
-        private void OnVisibilityWindowSizeChanged(object sender, SizeChangedEventArgs e) => UpdateLinesView();
-
-        private void OnVisibilityWindowMarginChanged(object sender, Thickness e) => UpdateLinesView();
 
         private void UpdateLinesView()
         {
