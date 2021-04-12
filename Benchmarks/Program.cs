@@ -69,14 +69,36 @@
             BresenhamCircleTool.StartDrawing(new Point((Width / 2) - 10, (Height / 2) - 10), Color.FromRgb(0, 0, 0));
             RasterTool = new RasterTool(Background, foreBitmap);
         }
-        
-        [Benchmark] public int ReadPixel()
+       
+        [Benchmark] public int CheckCompileOptimizationMod2Target()
+        {
+            int j = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                j += i % 2 == 0 ? 1 : -1;
+            }
+
+            return j;
+        }
+
+        [Benchmark] public int CheckCompileOptimizationMod2Basic()
+        {
+            int j = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                j += (i & 1) == 0 ? 1 : -1;
+            }
+
+            return j;
+        }
+
+        /*[Benchmark]*/ public int ReadPixel()
         {
             RasterTool.ReadPixel(Background, Width / 2, Height / 2);
             return 0;
         }
 
-        [Benchmark] public int ReadPixelColor()
+        /*[Benchmark]*/ public int ReadPixelColor()
         {
             RasterTool.ReadPixelColor(Background, Width / 2, Height / 2);
             return 0;
