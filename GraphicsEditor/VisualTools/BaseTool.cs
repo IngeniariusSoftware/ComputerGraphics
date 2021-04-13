@@ -12,6 +12,8 @@
 
         public bool IsDrawing { get; private set; }
 
+        protected bool IsOpen { get; private set; }
+
         protected Point LastPoint { get; private set; }
 
         public void TryDrawing(Point currentPoint, Color color)
@@ -31,13 +33,9 @@
         public virtual Point RotateToRoundAngle(LineSegment lineSegment) =>
             MathGeometry.RoundToPeriod(lineSegment, 45);
 
-        public virtual void Close()
-        {
-        }
+        public virtual void Open() => IsOpen = true;
 
-        public virtual void Open()
-        {
-        }
+        public virtual void Close() => IsOpen = false;
 
         public override string ToString() => string.Empty;
 

@@ -5,10 +5,7 @@
 
     public class MagnifierTool : BaseTool
     {
-        public MagnifierTool()
-        {
-            Keyboard = new InputSimulator().Keyboard;
-        }
+        public MagnifierTool() => Keyboard = new InputSimulator().Keyboard;
 
         private IKeyboardSimulator Keyboard { get; }
 

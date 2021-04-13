@@ -149,7 +149,12 @@
             ShapeCirclePanel.DataContext = ShapeCircleIcon;
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
             BresenhamCirclePanel.DataContext = BresenhamCircleIcon;
-            BezierIcon.DataContext = new ShapeBezierTool(vectorBackground, vectorForeground);
+            ElementaryBezierIcon.DataContext =
+                new ShapeBezierTool(vectorBackground, vectorForeground, new BezierCurves());
+            ShapeElementaryBezierPanel.DataContext = ElementaryBezierIcon;
+            ElementaryDeCasteljauIcon.DataContext =
+                new ShapeBezierTool(vectorBackground, vectorForeground, new DeCasteljauCurve());
+            ShapeElementaryDeCasteljauPanel.DataContext = ElementaryDeCasteljauIcon;
             FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
             FillPanel.DataContext = FillIcon;
             ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
@@ -158,6 +163,8 @@
             ShapeEraserIcon.DataContext = new ShapeEraserTool(vectorBackground);
             MovingIcon.DataContext = new MovingTool(VectorBackground);
             MagnifierIcon.DataContext = new MagnifierTool();
+            SelectionIcon.DataContext =
+                new SelectionTool(VectorBackground, new List<ListBox> { LinesPicker, EllipsesPicker, BezierPicker });
             var resizerController = new ResizerController(ResizerIcon, VisibleArea);
             var movingController = new MovingController(VisibleArea, 20);
             VisibilityWindowIcon.DataContext =
@@ -176,6 +183,12 @@
             EllipsesPicker.DataContext = ellipses;
             EllipsesPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
             EllipsesPicker.SelectionChanged += (_, _) => EllipsesPopup.IsOpen = false;
+
+            var beziers = new List<FrameworkElement> { ElementaryBezierIcon, ElementaryDeCasteljauIcon };
+            beziers.ForEach(x => x.MouseRightButtonUp += (_, _) => BezierPopup.IsOpen = true);
+            BezierPicker.DataContext = beziers;
+            BezierPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
+            BezierPicker.SelectionChanged += (_, _) => BezierPopup.IsOpen = false;
 
             var fillers = new List<FrameworkElement> { FillIcon, ByLineFillIcon };
             fillers.ForEach(x => x.MouseRightButtonUp += (_, _) => FillPopup.IsOpen = true);

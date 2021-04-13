@@ -70,7 +70,12 @@
 
         private void OnPreviewMouseLeftButtonDown(object sender, MouseEventArgs args)
         {
-            if (args.Source is not Shape shape) return;
+            if (args.Source is not Shape shape || !IsOpen)
+            {
+                MovingShape = null;
+                return;
+            }
+
             MovingShape = shape;
             Mouse.Capture(MovingShape);
             Delta = (Vector)Mouse.GetPosition(MovingShape);

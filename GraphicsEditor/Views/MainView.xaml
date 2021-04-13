@@ -86,7 +86,7 @@
             </Popup>
 
             <Label x:Name="VersionLabel"
-                   Content="ver. 2021.04.09" 
+                   Content="ver. 2021.04.13" 
                    HorizontalAlignment="Left" 
                    Margin="48,2,0,0" 
                    VerticalAlignment="Center" Foreground="White"/>
@@ -180,8 +180,7 @@
                        Source="../Images/Cursor.png"
                        Width="32"
                        Height="32"
-                       ToolTipService.ShowDuration="60000"
-                       Visibility="Collapsed">
+                       ToolTipService.ShowDuration="60000">
 
                     <Image.ToolTip>
                         <StackPanel Background="White">
@@ -672,7 +671,52 @@
                     </Image.ToolTip>
                 </Image>
 
-                <Image x:Name="BezierIcon"
+                <Popup Name="BezierPopup" 
+                       StaysOpen="False" 
+                       Placement="Right"
+                       HorizontalOffset="39"
+                       VerticalOffset="-38"
+                       PopupAnimation="None"
+                       AllowsTransparency="True">
+
+                    <ListBox x:Name="BezierPicker" 
+                             Background="#FF3C3C3C">
+
+                        <StackPanel x:Name="ShapeElementaryBezierPanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/Bezier.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Элементарная кривая Безье»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="ShapeElementaryDeCasteljauPanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/DeCasteljau.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Элементарная кривая де Кастельжо»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                    </ListBox>
+
+                </Popup>
+
+                <Image x:Name="ElementaryBezierIcon"
                        Width="32" 
                        Height="32"
                        Source="../Images/Bezier.png"
@@ -701,7 +745,43 @@
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
                                 Позволяет строить кривую Безье<LineBreak/>
-                                третьего порядка<LineBreak/>
+                                произвольного порядка<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
+                <Image x:Name="ElementaryDeCasteljauIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/DeCasteljau.png"
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Кривая Безье»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Позволяет строить кривую Кастельжо<LineBreak/>
+                                произвольного порядка<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>
@@ -853,7 +933,6 @@
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
-
 
                 <Image x:Name="ShapeEraserIcon"
                        Width="32" 

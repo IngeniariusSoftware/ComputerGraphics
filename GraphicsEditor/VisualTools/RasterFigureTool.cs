@@ -5,9 +5,9 @@
     using Geometry;
     using LineSegment = Geometry.LineSegment;
 
-    public class RasterFigureTool : RasterTool
+    public abstract class RasterFigureTool : RasterTool
     {
-        public RasterFigureTool(IWriteableBitmap background, IWriteableBitmap foreground)
+        protected RasterFigureTool(IWriteableBitmap background, IWriteableBitmap foreground)
             : base(background, foreground)
         {
             EmptyColor = Color.FromArgb(0, 0, 0, 0);
@@ -32,9 +32,7 @@
             base.Drawing(currentPoint, color);
         }
 
-        protected virtual void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color)
-        {
-        }
+        protected abstract void DrawFigure(IWriteableBitmap bitmap, Point currentPoint, Color color);
 
         protected virtual void Clear()
         {

@@ -3,16 +3,16 @@
     using System.Collections.Generic;
     using System.Windows;
 
-    public static class DeCasteljauCurve
+    public class DeCasteljauCurve : ICurveAlgorithm
     {
-        private static Point[] _points;
+        private Point[] _points;
 
-        static DeCasteljauCurve()
+        public DeCasteljauCurve()
         {
             _points = new Point[8];
         }
 
-        public static Point GetPoint(double t, List<Point> points)
+        public Point GetPoint(double t, List<Point> points)
         {
             if (points.Count > _points.Length) _points = new Point[points.Capacity];
             points.CopyTo(_points);

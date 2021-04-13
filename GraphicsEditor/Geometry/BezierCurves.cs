@@ -4,24 +4,24 @@
     using System.Windows;
     using Algebra;
 
-    public static class BezierCurves
+    public class BezierCurves : ICurveAlgorithm
     {
-        private static readonly Dictionary<decimal, Dictionary<int, decimal[]>> Coefficients;
+        private readonly Dictionary<decimal, Dictionary<int, decimal[]>> Coefficients;
 
-        private static readonly Dictionary<int, decimal[]> BezierCoefficients;
+        private readonly Dictionary<int, decimal[]> BezierCoefficients;
 
-        static BezierCurves()
+        public BezierCurves()
         {
             Coefficients = new Dictionary<decimal, Dictionary<int, decimal[]>>();
             BezierCoefficients = new Dictionary<int, decimal[]>();
         }
 
-        public static Point GetPoint(decimal t, List<Point> points)
+        public Point GetPoint(double t, List<Point> points)
         {
             decimal x = 0;
             decimal y = 0;
             int order = points.Count - 1;
-            var coefficients = GetCoefficients(order, t);
+            var coefficients = GetCoefficients(order, (decimal)t);
             int stride = 0;
             int j = 0;
             for (int i = 0; i < coefficients.Length; i++)
@@ -37,7 +37,7 @@
             return new Point((double)x, (double)y);
         }
 
-        public static decimal[] GetCoefficients(int order, decimal t)
+        public decimal[] GetCoefficients(int order, decimal t)
         {
             if (Coefficients.ContainsKey(t))
             {
@@ -73,7 +73,7 @@
             }
         }
 
-        public static decimal[] GetBezierCoefficients(int order)
+        public decimal[] GetBezierCoefficients(int order)
         {
             if (BezierCoefficients.ContainsKey(order)) return BezierCoefficients[order];
             var coefficients = new decimal[(order + 1) * (order + 2) / 2];

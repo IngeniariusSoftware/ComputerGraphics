@@ -1,7 +1,5 @@
 namespace Tests
 {
-    using System;
-    using System.Collections.Generic;
     using System.Windows;
     using GraphicsEditor.Geometry;
     using GraphicsEditor.Algebra;
@@ -131,13 +129,6 @@ namespace Tests
 
         [Test] public void TestBezierCoefficients()
         {
-            var p = new List<Point>();
-            for (int i = 0; i < 50; i++)
-            {
-                p.Add(new Point(i, i));
-            }
-            var sdome = BezierCurves.GetPoint(0.75, p);
-
             var coefficients = new[]
             {
                 new[] { 1 }, new[] { 1, -1, 1 }, new[] { 1, -2, 1, 2, -2, 1 },
@@ -147,7 +138,7 @@ namespace Tests
 
             foreach (int order in new[] { 0, 1, 2, 3, 4 })
             {
-                double[] result = BezierCurves.GetBezierCoefficients(order);
+                decimal[] result = new BezierCurves().GetBezierCoefficients(order);
                 for (int i = 0; i < result.Length; i++)
                 {
                     Assert.AreEqual(coefficients[order][i], result[i]);
@@ -166,7 +157,7 @@ namespace Tests
                 1 * 0.0625
             };
 
-            double[] result = BezierCurves.GetCoefficients(4, 0.5);
+            decimal[] result = new BezierCurves().GetCoefficients(4, 0.5m);
             for (int i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(answer[i], result[i]);
