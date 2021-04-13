@@ -15,7 +15,6 @@
 
         protected IPanel Panel { get; }
 
-
         private void OnPreviewMouseLeftButtonDown(object sender, MouseEventArgs args)
         {
             if (args.Source is not Shape shape) return;

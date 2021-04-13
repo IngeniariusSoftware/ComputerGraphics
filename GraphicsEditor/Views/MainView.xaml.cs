@@ -149,11 +149,9 @@
             ShapeCirclePanel.DataContext = ShapeCircleIcon;
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
             BresenhamCirclePanel.DataContext = BresenhamCircleIcon;
-            ElementaryBezierIcon.DataContext =
-                new ShapeBezierTool(vectorBackground, vectorForeground, new BezierCurves());
+            ElementaryBezierIcon.DataContext = new ShapeElementaryBezierTool(vectorBackground, vectorForeground);
             ShapeElementaryBezierPanel.DataContext = ElementaryBezierIcon;
-            ElementaryDeCasteljauIcon.DataContext =
-                new ShapeBezierTool(vectorBackground, vectorForeground, new DeCasteljauCurve());
+            ElementaryDeCasteljauIcon.DataContext = new ShapeElementaryDeCasteljau(vectorBackground, vectorForeground);
             ShapeElementaryDeCasteljauPanel.DataContext = ElementaryDeCasteljauIcon;
             FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
             FillPanel.DataContext = FillIcon;

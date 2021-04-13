@@ -1,21 +1,19 @@
 ﻿namespace GraphicsEditor.VisualTools
 {
-    using System.Linq;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Shapes;
     using Geometry;
     using UIElements;
 
-    public class ShapeBezierTool : ShapeTool
+    public abstract class ShapeCurveTool : ShapeTool
     {
-        public ShapeBezierTool(IPanel background, IPanel foreground, ICurveAlgorithm algorithm)
+        protected ShapeCurveTool(IPanel background, IPanel foreground)
             : base(background, foreground)
         {
-            Algorithm = algorithm;
         }
 
-        public ICurveAlgorithm Algorithm { get; }
+        public ICurveAlgorithm Algorithm { get; protected set; }
 
         public Curve Curve { get; set; }
 
@@ -40,8 +38,8 @@
         protected override void Drawing(Point currentPoint, Color color)
         {
             base.Drawing(currentPoint, color);
-            Curve.EllipsePoints.Last().Margin = new Thickness(currentPoint.X, currentPoint.Y, 0, 0);
-            Curve.EllipsePoints.Last().DataContext = Curve.EllipsePoints.Last().Margin;
+            Shape.Margin = new Thickness(currentPoint.X, currentPoint.Y, 0, 0);
+            Shape.DataContext = Shape.Margin;
         }
 
         protected override Shape GenerateShape(Color color)

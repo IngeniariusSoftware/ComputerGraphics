@@ -47,10 +47,10 @@
                         tool.Shape = SelectedShape;
                         toolContainer = item;
                     }
-                    else if (tool is ShapeBezierTool bezier && SelectedShape.Tag is Curve curve &&
-                             bezier.Algorithm == curve.Algorithm)
+                    else if (tool is ShapeCurveTool curveTool && SelectedShape.Tag is Curve curve &&
+                             curveTool.Algorithm == curve.Algorithm)
                     {
-                        bezier.Curve = curve;
+                        curveTool.Curve = curve;
                         toolContainer = item;
                     }
                 }
