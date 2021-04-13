@@ -176,6 +176,36 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
 
+                <Image x:Name="SelectionIcon" 
+                       Source="../Images/Cursor.png"
+                       Width="32"
+                       Height="32"
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
+
+                    <Image.ToolTip>
+                        <StackPanel Background="White">
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14" 
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Выбор»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Left" 
+                                       FontSize="14"
+                                       Margin="15,5,0,0" 
+                                       FontFamily="Tahoma">
+                                Выбор редактирования нужной фигуры<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
                 <Image x:Name="MovingIcon" 
                        Source="../Images/Moving.png"
                        Width="32"
