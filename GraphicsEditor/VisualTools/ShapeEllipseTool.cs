@@ -15,8 +15,6 @@
         {
         }
 
-        private Ellipse Ellipse { get; set; }
-
         public override Point RotateToRoundAngle(LineSegment lineSegment) =>
             MathGeometry.CeilingToPeriod(lineSegment, 90, -45);
 
@@ -26,25 +24,23 @@
         protected override void Drawing(Point currentPoint, Color color)
         {
             base.Drawing(currentPoint, color);
-            Ellipse.Margin = new Thickness(
+            if (Shape is not Ellipse ellipse) throw new Exception("Данный тип фигуры не поддерживается");
+            ellipse.Margin = new Thickness(
                 Math.Min(StartPoint.X, currentPoint.X),
                 Math.Min(StartPoint.Y, currentPoint.Y),
                 0,
                 0);
-            Ellipse.Width = Math.Abs(StartPoint.X - currentPoint.X);
-            Ellipse.Height = Math.Abs(StartPoint.Y - currentPoint.Y);
+            ellipse.Width = Math.Abs(StartPoint.X - currentPoint.X);
+            ellipse.Height = Math.Abs(StartPoint.Y - currentPoint.Y);
         }
 
-        protected override Shape GenerateShape(Color color)
+        protected override Shape GenerateShape(Color color) => new Ellipse
         {
-            return Ellipse = new Ellipse
-            {
-                Margin = new Thickness(StartPoint.X, StartPoint.Y, 0, 0),
-                Height = 0,
-                Width = 0,
-                Fill = new SolidColorBrush(Colors.Transparent),
-                Stroke = new SolidColorBrush(color),
-            };
-        }
+            Margin = new Thickness(StartPoint.X, StartPoint.Y, 0, 0),
+            Height = 0,
+            Width = 0,
+            Fill = new SolidColorBrush(Colors.Transparent),
+            Stroke = new SolidColorBrush(color),
+        };
     }
 }

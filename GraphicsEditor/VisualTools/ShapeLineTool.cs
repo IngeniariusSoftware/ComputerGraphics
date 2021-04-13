@@ -1,5 +1,6 @@
 ﻿namespace GraphicsEditor.VisualTools
 {
+    using System;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Shapes;
@@ -14,28 +15,24 @@
         {
         }
 
-        private Line Line { get; set; }
-
         public override string ToString() =>
             $"∠:  {-new LineSegment(StartPoint, LastPoint).TiltAngle,6:F}°\nД:  {MathGeometry.Length(StartPoint, LastPoint),6:F} пикс.";
 
         protected override void Drawing(Point currentPoint, Color color)
         {
             base.Drawing(currentPoint, color);
-            Line.X2 = currentPoint.X;
-            Line.Y2 = currentPoint.Y;
+            if (Shape is not Line line) throw new Exception("Данный тип фигуры не поддерживается");
+            line.X2 = currentPoint.X;
+            line.Y2 = currentPoint.Y;
         }
 
-        protected override Shape GenerateShape(Color color)
+        protected override Shape GenerateShape(Color color) => new Line
         {
-            return Line = new Line
-            {
-                Y1 = StartPoint.Y,
-                X1 = StartPoint.X,
-                Y2 = StartPoint.Y,
-                X2 = StartPoint.X,
-                Stroke = new SolidColorBrush(color),
-            };
-        }
+            Y1 = StartPoint.Y,
+            X1 = StartPoint.X,
+            Y2 = StartPoint.Y,
+            X2 = StartPoint.X,
+            Stroke = new SolidColorBrush(color),
+        };
     }
 }

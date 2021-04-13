@@ -38,7 +38,7 @@
 
         private void OnPreviewMouseRightButtonDown(object sender, MouseEventArgs args)
         {
-            if (args.Source is not Shape shape) return;
+            if (args.Source is not Shape) return;
             if (!IsActive) return;
             Panel.Children.Clear();
         }
