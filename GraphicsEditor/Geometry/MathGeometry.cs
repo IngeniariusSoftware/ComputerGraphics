@@ -1,7 +1,6 @@
 ﻿#nullable enable
 namespace GraphicsEditor.Geometry
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
@@ -49,6 +48,17 @@ namespace GraphicsEditor.Geometry
             return lineSegment.Start + (Vector)(angle % 90 == 0
                 ? new Point(len * cos, len * sin)
                 : new Point(len * Sign(cos), len * Sign(sin)));
+        }
+
+        public static Point NearestPoint(LineSegment lineSegment, Point point)
+        {
+            if (double.IsInfinity(lineSegment.Slope)) return new Point(lineSegment.Start.X, point.Y);
+            if (lineSegment.Slope == 0) return new Point(point.X, lineSegment.Start.Y);
+            double slope = -1 / lineSegment.Slope;
+            double interceptY = point.Y - (slope * point.X);
+            double x = (interceptY - lineSegment.InterceptY) / (lineSegment.Slope - slope);
+            double y = (x * slope) + interceptY;
+            return new Point(x, y);
         }
 
         public static List<Point> IntersectionPoints(LineSegment lineSegment, Rectangle rectangle)

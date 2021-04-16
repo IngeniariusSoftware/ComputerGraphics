@@ -3,9 +3,9 @@
     using Geometry;
     using UIElements;
 
-    public class ShapeElementaryBezierTool : ShapeCurveTool
+    public class ShapeElementaryDeCasteljauTool : ShapeCurveTool
     {
-        public ShapeElementaryBezierTool(IPanel background, IPanel foreground, ICurveAlgorithm algorithm,
+        public ShapeElementaryDeCasteljauTool(IPanel background, IPanel foreground, ICurveAlgorithm algorithm,
             double resolution)
             : base(background, foreground, algorithm, resolution)
         {

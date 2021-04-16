@@ -4,13 +4,13 @@
     using System.Windows;
     using Algebra;
 
-    public class BezierCurves : ICurveAlgorithm
+    public class BezierCurve : ICurveAlgorithm
     {
         private readonly Dictionary<decimal, Dictionary<int, decimal[]>> Coefficients;
 
         private readonly Dictionary<int, decimal[]> BezierCoefficients;
 
-        public BezierCurves()
+        public BezierCurve()
         {
             Coefficients = new Dictionary<decimal, Dictionary<int, decimal[]>>();
             BezierCoefficients = new Dictionary<int, decimal[]>();

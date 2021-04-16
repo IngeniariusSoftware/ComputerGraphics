@@ -6,13 +6,17 @@
 
     public interface IUIElementCollection : IEnumerable<UIElement>
     {
-        event EventHandler<UIElement> Added;
+        event EventHandler<IEnumerable<UIElement>> Added;
 
-        event EventHandler<UIElement> Removed;
+        event EventHandler<IEnumerable<UIElement>> Removed;
 
-        int Add(UIElement child);
+        void Add(UIElement child);
+
+        void AddRange(IEnumerable<UIElement> children);
 
         void Remove(UIElement child);
+
+        void RemoveRange(IEnumerable<UIElement> children);
 
         void Clear();
     }

@@ -77,8 +77,8 @@
             ShapesContainer.Visibility = Visibility.Collapsed;
             ShapesWindow.Visibility = Visibility.Visible;
             Lines = ShapesContainer.Children.Where(x => x is Line).Cast<Line>().ToList();
-            ShapesContainer.Children.Added += OnChildAdded;
-            ShapesContainer.Children.Removed += OnChildRemoved;
+            ShapesContainer.Children.Added += OnAdded;
+            ShapesContainer.Children.Removed += OnRemoved;
             UpdateLinesView();
         }
 
@@ -88,8 +88,8 @@
             Window.Visibility = Visibility.Collapsed;
             ShapesWindow.Visibility = Visibility.Collapsed;
             ShapesContainer.Visibility = Visibility.Visible;
-            ShapesContainer.Children.Added -= OnChildAdded;
-            ShapesContainer.Children.Removed -= OnChildRemoved;
+            ShapesContainer.Children.Added -= OnAdded;
+            ShapesContainer.Children.Removed -= OnRemoved;
             Lines.Clear();
         }
 
@@ -121,17 +121,25 @@
             VisibilityIcon.Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{image}Visibility.png"));
         }
 
-        private void OnChildAdded(object sender, UIElement element)
+        private void OnAdded(object sender, IEnumerable<UIElement> elements)
         {
-            if (element is not Line line) return;
-            Lines.Add(line);
+            foreach (var element in elements)
+            {
+                if (element is not Line line) continue;
+                Lines.Add(line);
+            }
+
             UpdateLinesView();
         }
 
-        private void OnChildRemoved(object sender, UIElement element)
+        private void OnRemoved(object sender, IEnumerable<UIElement> elements)
         {
-            if (element is not Line line) return;
-            Lines.Remove(line);
+            foreach (var element in elements)
+            {
+                if (element is not Line line) continue;
+                Lines.Remove(line);
+            }
+
             UpdateLinesView();
         }
 

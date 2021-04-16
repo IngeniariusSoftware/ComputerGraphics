@@ -23,6 +23,7 @@
     <None Remove="Images\BresenhamEllipse.png" />
     <None Remove="Images\BresenhamLine.gif" />
     <None Remove="Images\BresenhamLine.png" />
+    <None Remove="Images\BSpline.png" />
     <None Remove="Images\ByLineFill.png" />
     <None Remove="Images\CompoundBezier.png" />
     <None Remove="Images\Cursor.png" />
@@ -82,6 +83,7 @@
     <Resource Include="Images\BresenhamEllipse.png" />
     <Resource Include="Images\BresenhamLine.gif" />
     <Resource Include="Images\BresenhamLine.png" />
+    <Resource Include="Images\BSpline.png" />
     <Resource Include="Images\ByLineFill.png" />
     <Resource Include="Images\DeCasteljau.png" />
     <Resource Include="Images\Eraser.gif" />

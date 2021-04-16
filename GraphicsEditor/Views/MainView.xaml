@@ -86,7 +86,7 @@
             </Popup>
 
             <Label x:Name="VersionLabel"
-                   Content="ver. 2021.04.13" 
+                   Content="ver. 2021.04.16" 
                    HorizontalAlignment="Left" 
                    Margin="48,2,0,0" 
                    VerticalAlignment="Center" Foreground="White"/>
@@ -671,7 +671,7 @@
                     </Image.ToolTip>
                 </Image>
 
-                <Popup Name="BezierPopup" 
+                <Popup Name="CurvesPopup" 
                        StaysOpen="False" 
                        Placement="Right"
                        HorizontalOffset="39"
@@ -679,7 +679,7 @@
                        PopupAnimation="None"
                        AllowsTransparency="True">
 
-                    <ListBox x:Name="BezierPicker" 
+                    <ListBox x:Name="CurvesPicker" 
                              Background="#FF3C3C3C">
 
                         <StackPanel x:Name="ShapeElementaryBezierPanel"
@@ -712,11 +712,41 @@
 
                         </StackPanel>
 
+                        <StackPanel x:Name="ShapeCompoundBezierPanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/CompoundBezier.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Составная кривая Безье»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="ShapeCompoundBPanel"
+                                    Orientation="Horizontal">
+
+                            <Image Source="../Images/BSpline.png"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="5,5,5,5"/>
+
+                            <TextBlock Text="Инструмент «Составная В-сплайновая кривая»"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+
+                        </StackPanel>
+
                     </ListBox>
 
                 </Popup>
 
-                <Image x:Name="ElementaryBezierIcon"
+                <Image x:Name="ShapeElementaryBezierIcon"
                        Width="32" 
                        Height="32"
                        Source="../Images/Bezier.png"
@@ -736,7 +766,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент «Кривая Безье»
+                                Инструмент «Элементарная кривая Безье»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -744,14 +774,14 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Позволяет строить кривую Безье<LineBreak/>
+                                Позволяет строить элементарную кривую Безье<LineBreak/>
                                 произвольного порядка<LineBreak/>
                             </TextBlock>
                         </StackPanel>
                     </Image.ToolTip>
                 </Image>
 
-                <Image x:Name="ElementaryDeCasteljauIcon"
+                <Image x:Name="ShapeElementaryDeCasteljauIcon"
                        Width="32" 
                        Height="32"
                        Source="../Images/DeCasteljau.png"
@@ -772,7 +802,7 @@
                                        Margin="15,10,0,0"
                                        HorizontalAlignment="Left"
                                        FontFamily="Tahoma">
-                                Инструмент «Кривая Безье»
+                                Инструмент «Элементарная кривая де Кастельжо»
                             </TextBlock>
 
                             <TextBlock VerticalAlignment="Bottom" 
@@ -780,7 +810,79 @@
                                        FontSize="14"
                                        Margin="15,5,0,0"
                                        FontFamily="Tahoma">
-                                Позволяет строить кривую Кастельжо<LineBreak/>
+                                Позволяет строить кривую де Кастельжо<LineBreak/>
+                                произвольного порядка<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
+                <Image x:Name="ShapeCompoundBezierIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/CompoundBezier.png"
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Составная кривая Безье»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Позволяет строить составную кривую Безье<LineBreak/>
+                                произвольного порядка<LineBreak/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+
+                <Image x:Name="ShapeCompoundBIcon"
+                       Width="32" 
+                       Height="32"
+                       Source="../Images/BSpline.png"
+                       ToolTipService.ShowDuration="60000"
+                       Visibility="Collapsed">
+
+                    <Image.ToolTip>
+
+                        <StackPanel Background="White">
+
+                            <!--<Image xamlAnimatedGif:AnimationBehavior.SourceUri="../Images/BresenhamCircle.gif"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"/>-->
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       FontWeight="Bold"
+                                       FontSize="14"
+                                       Margin="15,10,0,0"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="Tahoma">
+                                Инструмент «Составная В-сплайновая кривая»
+                            </TextBlock>
+
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Margin="15,5,0,0"
+                                       FontFamily="Tahoma">
+                                Позволяет строить составную В-сплайновую кривую<LineBreak/>
                                 произвольного порядка<LineBreak/>
                             </TextBlock>
                         </StackPanel>

@@ -149,10 +149,20 @@
             ShapeCirclePanel.DataContext = ShapeCircleIcon;
             BresenhamCircleIcon.DataContext = new BresenhamCircleTool(BackgroundBitmap, ForegroundBitmap);
             BresenhamCirclePanel.DataContext = BresenhamCircleIcon;
-            ElementaryBezierIcon.DataContext = new ShapeElementaryBezierTool(vectorBackground, vectorForeground);
-            ShapeElementaryBezierPanel.DataContext = ElementaryBezierIcon;
-            ElementaryDeCasteljauIcon.DataContext = new ShapeElementaryDeCasteljau(vectorBackground, vectorForeground);
-            ShapeElementaryDeCasteljauPanel.DataContext = ElementaryDeCasteljauIcon;
+            ICurveAlgorithm bezier = new BezierCurve();
+            ShapeElementaryBezierIcon.DataContext =
+                new ShapeElementaryBezierTool(vectorBackground, vectorForeground, bezier, 0.01);
+            ICurveAlgorithm deCasteljau = new DeCasteljauCurve();
+            ShapeElementaryBezierPanel.DataContext = ShapeElementaryBezierIcon;
+            ShapeElementaryDeCasteljauIcon.DataContext =
+                new ShapeElementaryDeCasteljauTool(vectorBackground, vectorForeground, deCasteljau, 0.01);
+            ShapeElementaryDeCasteljauPanel.DataContext = ShapeElementaryDeCasteljauIcon;
+            ShapeCompoundBezierIcon.DataContext =
+                new ShapeCompoundBezierTool(vectorBackground, vectorForeground, bezier, 0.05);
+            ShapeCompoundBezierPanel.DataContext = ShapeCompoundBezierIcon;
+            ShapeCompoundBIcon.DataContext =
+                new ShapeCompoundBTool(vectorBackground, vectorForeground, new BCurve(), 0.05);
+            ShapeCompoundBPanel.DataContext = ShapeCompoundBIcon;
             FillIcon.DataContext = new FillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
             FillPanel.DataContext = FillIcon;
             ByLineFillIcon.DataContext = new ByLineFillTool(BackgroundBitmap, ForegroundBitmap, coordinatesBuffer);
@@ -162,7 +172,7 @@
             MovingIcon.DataContext = new MovingTool(VectorBackground);
             MagnifierIcon.DataContext = new MagnifierTool();
             SelectionIcon.DataContext =
-                new SelectionTool(VectorBackground, new List<ListBox> { LinesPicker, EllipsesPicker, BezierPicker });
+                new SelectionTool(VectorBackground, new List<ListBox> { LinesPicker, EllipsesPicker, CurvesPicker });
             var resizerController = new ResizerController(ResizerIcon, VisibleArea);
             var movingController = new MovingController(VisibleArea, 20);
             VisibilityWindowIcon.DataContext =
@@ -182,11 +192,14 @@
             EllipsesPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
             EllipsesPicker.SelectionChanged += (_, _) => EllipsesPopup.IsOpen = false;
 
-            var beziers = new List<FrameworkElement> { ElementaryBezierIcon, ElementaryDeCasteljauIcon };
-            beziers.ForEach(x => x.MouseRightButtonUp += (_, _) => BezierPopup.IsOpen = true);
-            BezierPicker.DataContext = beziers;
-            BezierPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
-            BezierPicker.SelectionChanged += (_, _) => BezierPopup.IsOpen = false;
+            var curves = new List<FrameworkElement>
+            {
+                ShapeElementaryBezierIcon, ShapeElementaryDeCasteljauIcon, ShapeCompoundBezierIcon, ShapeCompoundBIcon,
+            };
+            curves.ForEach(x => x.MouseRightButtonUp += (_, _) => CurvesPopup.IsOpen = true);
+            CurvesPicker.DataContext = curves;
+            CurvesPicker.SelectionChanged += NestedToolPicker_SelectionChanged;
+            CurvesPicker.SelectionChanged += (_, _) => CurvesPopup.IsOpen = false;
 
             var fillers = new List<FrameworkElement> { FillIcon, ByLineFillIcon };
             fillers.ForEach(x => x.MouseRightButtonUp += (_, _) => FillPopup.IsOpen = true);

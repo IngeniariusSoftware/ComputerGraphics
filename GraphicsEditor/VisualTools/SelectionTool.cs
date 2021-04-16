@@ -23,7 +23,7 @@
         public override string ToString() => SelectedShape switch
         {
             Line => "Отрезок",
-            Ellipse { Tag: Curve } => "Кривая",
+            Ellipse { Tag: ElementaryCurve } => "Кривая",
             Ellipse { Tag: ShapeEllipseTool } => "Эллипс",
             Ellipse { Tag: ShapeCircleTool } => "Окружность",
             _ => string.Empty
@@ -47,11 +47,20 @@
                         tool.Shape = SelectedShape;
                         toolContainer = item;
                     }
-                    else if (tool is ShapeCurveTool curveTool && SelectedShape.Tag is Curve curve &&
+                    else if (tool is ShapeCurveTool curveTool && SelectedShape.Tag is ICurve curve &&
                              curveTool.Algorithm == curve.Algorithm)
                     {
-                        curveTool.Curve = curve;
-                        toolContainer = item;
+                        if (curve is CompoundBezierCurve)
+                        {
+                            if (tool is not ShapeCompoundBezierTool) continue;
+                            curveTool.Curve = curve;
+                            toolContainer = item;
+                        }
+                        else if (tool is not ShapeCompoundBezierTool)
+                        {
+                            curveTool.Curve = curve;
+                            toolContainer = item;
+                        }
                     }
                 }
 

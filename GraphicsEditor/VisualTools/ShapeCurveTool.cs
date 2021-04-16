@@ -8,19 +8,23 @@
 
     public abstract class ShapeCurveTool : ShapeTool
     {
-        protected ShapeCurveTool(IPanel background, IPanel foreground)
+        protected ShapeCurveTool(IPanel background, IPanel foreground, ICurveAlgorithm algorithm, double resolution)
             : base(background, foreground)
         {
+            Resolution = resolution;
+            Algorithm = algorithm;
         }
 
-        public ICurveAlgorithm Algorithm { get; protected set; }
+        public ICurveAlgorithm Algorithm { get; }
 
-        public Curve Curve { get; set; }
+        public ICurve Curve { get; set; }
+
+        public double Resolution { get; }
 
         public override void Open()
         {
             base.Open();
-            Curve ??= new Curve(Background, Algorithm, 0.01);
+            Curve ??= GenerateCurve();
         }
 
         public override void Close()
@@ -34,6 +38,8 @@
             Shape.Tag = Curve;
             base.EndDrawing(currentPoint, color);
         }
+
+        protected abstract ICurve GenerateCurve();
 
         protected override void Drawing(Point currentPoint, Color color)
         {

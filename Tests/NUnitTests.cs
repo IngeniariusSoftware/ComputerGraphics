@@ -138,7 +138,7 @@ namespace Tests
 
             foreach (int order in new[] { 0, 1, 2, 3, 4 })
             {
-                decimal[] result = new BezierCurves().GetBezierCoefficients(order);
+                decimal[] result = new BezierCurve().GetBezierCoefficients(order);
                 for (int i = 0; i < result.Length; i++)
                 {
                     Assert.AreEqual(coefficients[order][i], result[i]);
@@ -157,11 +157,18 @@ namespace Tests
                 1 * 0.0625
             };
 
-            decimal[] result = new BezierCurves().GetCoefficients(4, 0.5m);
+            decimal[] result = new BezierCurve().GetCoefficients(4, 0.5m);
             for (int i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(answer[i], result[i]);
             }
+        }
+
+        [Test] public void TestNearestPoint()
+        {
+            Point result =
+                MathGeometry.NearestPoint(new LineSegment(new Point(0, 0), new Point(10, 5)), new Point(3, 6.5));
+            Assert.AreEqual(new Point(5, 2.5), result);
         }
     }
 }

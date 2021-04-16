@@ -1,5 +1,6 @@
 ﻿namespace GraphicsEditor.UIElements
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
@@ -8,9 +9,9 @@
     using Extensions;
     using Geometry;
 
-    public class Curve
+    public class CompoundBCurve : ICurve
     {
-        public Curve(IPanel background, ICurveAlgorithm algorithm, double resolution)
+        public CompoundBCurve(IPanel background, ICurveAlgorithm algorithm, double resolution)
         {
             Algorithm = algorithm;
             Background = background;
@@ -20,14 +21,8 @@
             InterpolationSegments = new List<Line>();
             ConnectionLines = new List<Line>();
             Resolution = resolution;
-            for (double i = 0; i < 1; i += Resolution)
-            {
-                InterpolationSegments.Add(new Line
-                    { Stroke = new SolidColorBrush(Colors.Transparent), IsEnabled = false });
-            }
-
-            InterpolationSegments.Add(new Line { Stroke = new SolidColorBrush(Colors.Transparent) });
-            Size = new Size(10, 10);
+            CurveSegmentsCount = (int)Math.Ceiling(1.0 / Resolution);
+            Size = new Size(16, 16);
             Bias = new Vector(Size.Width / 2, Size.Height / 2);
         }
 
@@ -44,6 +39,8 @@
         public Size Size { get; }
 
         public Vector Bias { get; }
+
+        public int CurveSegmentsCount { get; }
 
         public ICurveAlgorithm Algorithm { get; }
 
@@ -67,10 +64,49 @@
                 Background.Children.Add(ConnectionLines.Last());
             }
 
-            if (ReferencePoints.Count == 1) InterpolationSegments.ForEach(x => Background.Children.Add(x));
+            if (ReferencePoints.Count > 3)
+            {
+                for (int i = 0; i < CurveSegmentsCount; i++)
+                {
+                    var line = new Line { Stroke = new SolidColorBrush(Colors.Transparent), IsEnabled = false };
+                    InterpolationSegments.Add(line);
+                    Background.Children.Add(line);
+                }
+            }
+
             var brush = new SolidColorBrush(color);
             InterpolationSegments.ForEach(x => { x.Stroke = brush; });
             RebuildBezier();
+        }
+
+        protected virtual void RebuildBezier()
+        {
+            if (ReferencePoints.Count < 4) return;
+            int stride = 0;
+            for (int i = 0; i < ReferencePoints.Count - 3; i++)
+            {
+                List<Point> points = ReferencePoints.GetRange(i, 4);
+                Line firstSegment = InterpolationSegments[stride];
+                Point firstPoint = Algorithm.GetPoint(0, points);
+                firstSegment.X1 = firstPoint.X;
+                firstSegment.Y1 = firstPoint.Y;
+                Line lastSegment = InterpolationSegments[stride + CurveSegmentsCount - 1];
+                Point secondPoint = Algorithm.GetPoint(1, points);
+                lastSegment.X2 = secondPoint.X;
+                lastSegment.Y2 = secondPoint.Y;
+                for (int j = 0; j < CurveSegmentsCount - 1; j++)
+                {
+                    Line line = InterpolationSegments[stride + j];
+                    Line nextLine = InterpolationSegments[stride + j + 1];
+                    Point point = Algorithm.GetPoint(Resolution * j, points);
+                    line.X2 = point.X;
+                    line.Y2 = point.Y;
+                    nextLine.X1 = line.X2;
+                    nextLine.Y1 = line.Y2;
+                }
+
+                stride += CurveSegmentsCount;
+            }
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs args)
@@ -104,7 +140,15 @@
             RebuildBezier();
         }
 
-        public void OnRemoved(object sender, UIElement element)
+        private void OnRemoved(object sender, IEnumerable<UIElement> elements)
+        {
+            foreach (UIElement element in elements)
+            {
+                OnRemovedElement(element);
+            }
+        }
+
+        private void OnRemovedElement(UIElement element)
         {
             if (element is not Ellipse ellipse) return;
             int index = EllipsePoints.IndexOf(ellipse);
@@ -125,14 +169,20 @@
                 Background.Children.Add(ConnectionLines[index - 1]);
             }
 
-            Background.Children.Removed -= OnRemoved;
             neighbors.ForEach(x => ConnectionLines.Remove(x));
             neighbors.ForEach(x => Background.Children.Remove(x));
-            EllipsePoints.Remove((Ellipse)element);
+            EllipsePoints.Remove(ellipse);
             ReferencePoints.RemoveAt(index);
-            Background.Children.Remove(element);
             if (ReferencePoints.Count > 0)
             {
+                if (ReferencePoints.Count <= 2) return;
+                Background.Children.Removed -= OnRemoved;
+                List<UIElement> removedLines =
+                    InterpolationSegments.GetRange(InterpolationSegments.Count - CurveSegmentsCount,
+                        CurveSegmentsCount).Cast<UIElement>().ToList();
+                InterpolationSegments.RemoveRange(InterpolationSegments.Count - CurveSegmentsCount,
+                    CurveSegmentsCount);
+                Background.Children.RemoveRange(removedLines);
                 Background.Children.Removed += OnRemoved;
                 RebuildBezier();
                 return;
@@ -143,29 +193,6 @@
             EllipsePoints.Clear();
             ReferencePoints.Clear();
             ConnectionLines.Clear();
-        }
-
-        private void RebuildBezier()
-        {
-            if (ReferencePoints.Count < 1) return;
-            Line firstSegment = InterpolationSegments.First();
-            firstSegment.X1 = ReferencePoints.First().X;
-            firstSegment.Y1 = ReferencePoints.First().Y;
-            Line lastSegment = InterpolationSegments.Last();
-            lastSegment.X2 = ReferencePoints.Last().X;
-            lastSegment.Y2 = ReferencePoints.Last().Y;
-
-            int i = 0;
-            for (double t = 0; t < 1; t += Resolution, i++)
-            {
-                Line line = InterpolationSegments[i];
-                Line nextLine = InterpolationSegments[i + 1];
-                Point point = Algorithm.GetPoint(t, ReferencePoints);
-                line.X2 = point.X;
-                line.Y2 = point.Y;
-                nextLine.X1 = line.X2;
-                nextLine.Y1 = line.Y2;
-            }
         }
     }
 }
